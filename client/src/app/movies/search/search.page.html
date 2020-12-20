@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Búsqueda</ion-title>
+    <ion-title>Search</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,50 +8,45 @@
   <ion-searchbar
     [(ngModel)]="searchTerm"
     (ionChange)="handleSearch($event)"
-    placeholder="Buscar!"
   ></ion-searchbar>
 
   <ion-item>
-    <ion-label>Filtrar resultados...</ion-label>
+    <ion-label>Filter results...</ion-label>
     <ion-select [(ngModel)]="type" (ionChange)="handleSearch($event)">
-      <ion-select-option value="">Todo</ion-select-option>
-      <ion-select-option value="movie">Película</ion-select-option>
-      <ion-select-option value="series">Serie</ion-select-option>
+      <ion-select-option value="">All</ion-select-option>
+      <ion-select-option value="movie">Movies</ion-select-option>
+      <ion-select-option value="series">TV Shows</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-virtual-scroll [items]="results | async" approxItemHeight="320px">
     <ion-item
       button
-      [routerLink]="['/', 'movies', item.imdbID]"
+      [routerLink]="['/', 'search', item.imdbID]"
       *virtualItem="let item"
     >
       <ion-grid>
         <ion-row>
           <ion-col size="3">
             <ion-avatar>
-            <ion-img [src]="item.Poster" *ngIf="item.Poster != 'N/A'"></ion-img>
-            <ion-img [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'" *ngIf="item.Poster == 'N/A'"></ion-img>
-          </ion-avatar>
+              <ion-img
+                [src]="item.Poster"
+                *ngIf="item.Poster != 'N/A'"
+              ></ion-img>
+              <ion-img
+                [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
+                *ngIf="item.Poster == 'N/A'"
+              ></ion-img>
+            </ion-avatar>
           </ion-col>
           <ion-col size="6">
             <ion-label text-wrap>
               <h3>{{ item.Title }}</h3>
               {{ item.Year }}
             </ion-label>
-          </ion-col >
-          <ion-col  size="3">
-            <ion-icon 
-              *ngIf="item.Type == 'movie'"
-              name="videocam"
-            ></ion-icon>
-            <ion-icon
-              *ngIf="item.Type == 'series'"
-              name="tv"
-            ></ion-icon>
-            <ion-icon
-              *ngIf="item.Type == 'game'"
-              name="game-controller"
-            ></ion-icon>
+          </ion-col>
+          <ion-col size="3">
+            <ion-icon *ngIf="item.Type == 'movie'" name="videocam"></ion-icon>
+            <ion-icon *ngIf="item.Type == 'series'" name="tv"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>

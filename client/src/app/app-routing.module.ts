@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'movies',
+    redirectTo: 'search',
     pathMatch: 'full'
   },
   {
@@ -12,12 +12,12 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthPageModule)
   },
   {
-    path: 'movies',
+    path: 'search',
     loadChildren: () => import('./movies/search/search.module').then( m => m.SearchPageModule)
   },
   {
-    path: 'movies/:id',
-    loadChildren: () => import('./movies/detail/detail.module').then( m => m.DetailPageModule)
+    path: 'search/:id',
+    loadChildren: () => import('./movies/search/detail/detail.module').then( m => m.DetailPageModule)
   }
 /*   {
     path: 'add',
