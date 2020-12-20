@@ -1,4 +1,4 @@
-import { MovieService } from './../../services/movie.service';
+import { SearchService } from '../../../services/search.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
  
@@ -11,7 +11,7 @@ export class DetailPage implements OnInit {
  
   information = null;
   
-  constructor(private activatedRoute: ActivatedRoute, private movieService: MovieService) { }
+  constructor(private activatedRoute: ActivatedRoute, private movieService: SearchService) { }
  
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');

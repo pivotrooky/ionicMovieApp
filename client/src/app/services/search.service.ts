@@ -13,7 +13,7 @@ export enum SearchType {
 @Injectable({
   providedIn: "root",
 })
-export class MovieService {
+export class SearchService {
   url = "http://www.omdbapi.com/";
   apiKey = "20dac387";
 
