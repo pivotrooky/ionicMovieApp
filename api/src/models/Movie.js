@@ -15,6 +15,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    
+    imdbRating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     type: {
       type: DataTypes.ENUM("movie", "series"),
       allowNull: true,
@@ -34,12 +39,8 @@ module.exports = (sequelize) => {
         isUrl: true,
       },
     },
-    imdbRating: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     plot: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     actors: {

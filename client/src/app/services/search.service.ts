@@ -16,6 +16,7 @@ export enum SearchType {
 export class SearchService {
   url = "http://www.omdbapi.com/";
   apiKey = "20dac387";
+  createdIds = [];
 
   constructor(private http: HttpClient) {}
 
@@ -37,5 +38,36 @@ export class SearchService {
   }
   getDetails(id) {
     return this.http.get(`${this.url}?i=${id}&plot=full&apikey=${this.apiKey}`);
+  }
+
+  addMovieFromOMDB(OMDBObject) {
+    
+    for (let key in OMDBObject) {
+      if (OMDBObject[key] === "N/A") OMDBObject[key] = null;
+    }
+    
+    const {Title, Year, Type, Poster, Website, imdbID, imdbRating, Plot, Actors, Director, Genre} = OMDBObject;
+    let userId = 1;
+    //later we'll get this from local/sessionstorage...?
+    const data = {
+      title: Title,
+      year: parseInt(Year),
+      imdbID,
+      imdbRating: parseInt(imdbRating),
+      type: Type,
+      image: Poster,
+      website: Website,
+      plot: Plot,
+      actors: Actors,
+      director: Director,
+      userId,
+      genre: Genre,
+    }
+
+    console.log(data, "movie");
+
+    this.http.post<any>('http://localhost:3001/movies/', data).subscribe(data => {
+        this.createdIds.push(data.id);
+    })
   }
 }
