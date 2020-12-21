@@ -26,5 +26,33 @@ module.exports = (sequelize) => {
         isUrl: true,
       },
     },
+
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isUrl: true,
+      },
+    },
+    imdbRating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    plot: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    actors: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    director: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   });
 };
