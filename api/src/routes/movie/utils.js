@@ -30,6 +30,7 @@ const createMovie = (req, res) => {
     actors,
     director,
     userId,
+    genre,
   } = req.body;
   Movie.create({
     title,
@@ -42,6 +43,7 @@ const createMovie = (req, res) => {
     actors,
     director,
     userId,
+    genre,
   })
     .then((movie) => {
       res.status(200).send(movie);
@@ -60,6 +62,7 @@ const modifyMovie = (req, res) => {
     "director",
     "website",
     "plot",
+    "genre",
   ];
   const newObj = {};
   newKeys.forEach((key) => {
