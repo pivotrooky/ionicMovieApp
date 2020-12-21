@@ -5,8 +5,6 @@ const {
 	createMovie,
 	deleteMovie,
 	modifyMovie,
-	addMovieToUser,
-	removeMovieFromUser,
 	getMoviesOfUser,
 } = require('./utils.js');
 
@@ -29,13 +27,6 @@ server.delete('/:id', deleteMovie);
 
 //Get --> Mostrar las películas de un usuario específico
 server.get('/of/:id', getMoviesOfUser);
-
-//Post --> Vincular película con usuario
-server.post('/:movieId/bind/:userId', addMovieToUser);
-
-//Delete --> Desvincular película de usuario
-server.delete('/:movieId/bind/:userId', removeMovieFromUser);
-
 
 
 module.exports = server;
