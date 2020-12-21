@@ -11,12 +11,12 @@ export class DetailPage implements OnInit {
  
   information = null;
   
-  constructor(private activatedRoute: ActivatedRoute, private movieService: SearchService) { }
+  constructor(private activatedRoute: ActivatedRoute, private searchService: SearchService) { }
  
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
  
-    this.movieService.getDetails(id).subscribe(result => {
+    this.searchService.getDetails(id).subscribe(result => {
       this.information = result;
     });
   }
@@ -24,4 +24,10 @@ export class DetailPage implements OnInit {
   openWebsite() {
     window.open(this.information.Website, '_blank');
   }
+
+  addMovieToList() {
+    this.searchService.addMovieFromOMDB(this.information);
+  }
+
+  
 }

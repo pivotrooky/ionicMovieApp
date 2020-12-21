@@ -23,19 +23,23 @@ const createMovie = (req, res) => {
     title,
     year,
     imdbId,
+    imdbRating,
     type,
     image,
     website,
     plot,
     actors,
     director,
-    userId,
     genre,
+    userId,
   } = req.body;
+
+  Movie.findOne()
   Movie.create({
     title,
     year,
     imdbId,
+    imdbRating,
     type,
     image,
     website,
