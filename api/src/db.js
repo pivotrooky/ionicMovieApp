@@ -41,8 +41,7 @@ const {
   Movie,
 } = sequelize.models;
 
-User.belongsToMany(Movie, { through: "usermovies" });
-Movie.belongsToMany(User, { through: "usermovies" });
+User.hasMany(Movie);
 
 // --------------------------HASH y SALT PASSWORD------------------------
 // Genera la una salt	random

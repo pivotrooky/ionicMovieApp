@@ -19,13 +19,29 @@ const getOnlyMovie = (req, res) => {
 
 // Crea una nueva movie y la guarda en la base de datos
 const createMovie = (req, res) => {
-  const { title, year, imdbId, type, image } = req.body;
+  const {
+    title,
+    year,
+    imdbId,
+    type,
+    image,
+    website,
+    plot,
+    actors,
+    director,
+    userId,
+  } = req.body;
   Movie.create({
     title,
     year,
     imdbId,
     type,
     image,
+    website,
+    plot,
+    actors,
+    director,
+    userId,
   })
     .then((movie) => {
       res.status(200).send(movie);
@@ -35,31 +51,28 @@ const createMovie = (req, res) => {
 
 //REFACTOR!
 const modifyMovie = (req, res) => {
-  const { title, year, imdbId, type, image } = req.body;
+  const newKeys = [
+    "title",
+    "year",
+    "type",
+    "image",
+    "actors",
+    "director",
+    "website",
+    "plot",
+  ];
+  const newObj = {};
+  newKeys.forEach((key) => {
+    let newValue = req.body[key];
+    if (!newValue) return;
+    newObj[key] = newValue;
+  });
   const { id } = req.params;
   Movie.findByPk(id)
     .then((movie) => {
-      if (title) {
-        movie.title = title;
-        movie.save();
+      for (key in newObj) {
+        movie[key] = newObj[key];
       }
-      if (year) {
-        movie.year = year;
-        movie.save();
-      }
-      if (imdbId) {
-        movie.imdbId = imdbId;
-        movie.save();
-      }
-      if (type) {
-        movie.type = type;
-        movie.save();
-      }
-      if (image) {
-        movie.image = image;
-        movie.save();
-      }
-
       return movie.save();
     })
     .then((movie) => res.status(200).send(movie))
@@ -76,45 +89,10 @@ const deleteMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-
-//Post --> Crear asociación entre una película y un usuario
-const addMovieToUser = (req, res) => {
-  const {movieId, userId} = req.params;
-
-  let movieObj;
-
-  Movie.findOne({ where: { id: movieId } })
-    .then((movie) => {
-      movieObj = movie;
-      console.log(movie, "película encontrada");
-      return movie.hasUser(userId);
-    })
-    .then((res) => {
-      //da falso siempre, corregir
-      if (res) return res.status(200).json(movieObj);
-      movieObj.addUser(userId).then(res.status(201).json(movieObj));
-    })
-    .catch((err) => res.send(err));
-
-}
-
-
-//Delete --> Borrar asociación entre una película y un usuario
-const removeMovieFromUser = (req, res) => {
-  const {movieId, userId} = req.params;
-
-  Movie.findOne({ where: { id: movieId } })
-    .then((movie) => {
-      movie.removeUser(userId).then(res.status(200).json(movie));
-    })
-    .catch((err) => res.send(err));
-  
-}
-
 //Get -> nos trae las películas de un usuario en especial
 const getMoviesOfUser = (req, res) => {
   const { id } = req.params;
-  console.log(id, "SOY USER ID")
+  console.log(id, "SOY USER ID");
   User.findAll({
     where: {
       id,
@@ -133,7 +111,5 @@ module.exports = {
   createMovie,
   deleteMovie,
   modifyMovie,
-  addMovieToUser,
-  removeMovieFromUser,
-  getMoviesOfUser
+  getMoviesOfUser,
 };
