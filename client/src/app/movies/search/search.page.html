@@ -21,7 +21,7 @@
   <ion-virtual-scroll [items]="results | async" approxItemHeight="320px">
     <ion-item
       button
-      [routerLink]="['/', 'search', item.imdbID]"
+      [routerLink]="getCorrectRoute(item)"
       *virtualItem="let item"
     >
       <ion-grid>
