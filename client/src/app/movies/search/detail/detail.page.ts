@@ -1,4 +1,5 @@
 import { SearchService } from '../../../services/search.service';
+import { LocalService } from '../../../services/local.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
  
@@ -11,7 +12,7 @@ export class DetailPage implements OnInit {
  
   information = null;
   
-  constructor(private activatedRoute: ActivatedRoute, private searchService: SearchService) { }
+  constructor(private activatedRoute: ActivatedRoute, private searchService: SearchService, private localService: LocalService) { }
  
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -26,7 +27,7 @@ export class DetailPage implements OnInit {
   }
 
   addMovieToList() {
-    this.searchService.addMovieFromOMDB(this.information);
+    this.localService.addMovieFromOMDB(this.information);
   }
 
   
