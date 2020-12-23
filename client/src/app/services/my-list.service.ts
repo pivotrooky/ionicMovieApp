@@ -56,7 +56,7 @@ export class MyListService {
     ); */
 }
 
-getLocalID(item) {
+getLocalID(imdbID) {
   let list = this.getMyList();
   //console.log(list, "lista");
   return null;

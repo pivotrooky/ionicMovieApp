@@ -1,6 +1,6 @@
 import { MyListService } from '../../../services/my-list.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
  
 @Component({
   selector: 'app-movie-details',
@@ -12,7 +12,7 @@ export class MyDetailPage implements OnInit {
   item = null;
   id = null;
   
-  constructor(private activatedRoute: ActivatedRoute, private myListService: MyListService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private myListService: MyListService) { }
  
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -26,10 +26,13 @@ export class MyDetailPage implements OnInit {
     window.open(this.item.Website, '_blank');
   }
 
-  removeThisFromMyList() {
-    return this.myListService.removeItem(this.id).subscribe(() => {
-      console.log("deleted")})
+  removeThisAndGetOut() {
+    this.removeThisFromMyList();
+    this.router.navigate(['/myList']);
+  }
 
+  removeThisFromMyList() {
+    return this.myListService.removeItem(this.id).subscribe();
   }
   
 }
