@@ -10,6 +10,7 @@
     <ion-item
       button
       *virtualItem="let item"
+      [routerLink]="['/myList/', item.id]"
     >
       <ion-grid>
         <ion-row>

@@ -56,6 +56,20 @@ export class MyListService {
     ); */
 }
 
+getLocalID(imdbID) {
+  let list = this.getMyList();
+  //console.log(list, "lista");
+  return null;
+}
+
+getMyDetails(id) {
+  return this.http.get('http://localhost:3001/movies/' + id);
+}
+
+removeItem(id) {
+  return this.http.delete('http://localhost:3001/movies/' + id);
+}
+
   /* getLocalID(item) {
     const movies = this.getMoviesOfUser(1);
     const id = movies.find(m => m.imdbID === item.imdbID)?.id;
