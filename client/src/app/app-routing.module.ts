@@ -18,20 +18,20 @@ const routes: Routes = [
   {
     path: 'search/:id',
     loadChildren: () => import('./movies/search/detail/detail.module').then( m => m.DetailPageModule)
-  }
-/*   {
+  },
+  {
+    path: 'myList',
+    loadChildren: () => import('./movies/my-list/my-list.module').then( m => m.MyListPageModule)
+  },
+{
     path: 'add',
-    loadChildren: () => import('./movies/add/add.module').then( m => m.AddPageModule)
+    loadChildren: () => import('./movies/my-list/add/add.module').then( m => m.AddPageModule)
   },
   {
     path: 'edit',
-    loadChildren: () => import('./movies/edit/edit.module').then( m => m.EditPageModule)
+    loadChildren: () => import('./movies/my-list/edit/edit.module').then( m => m.EditPageModule)
   },
-  {
-    path: 'my-list',
-    loadChildren: () => import('./movies/my-list/my-list.module').then( m => m.MyListPageModule)
-  },
-  */
+
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { SearchService, SearchType } from '../../services/search.service';
-import { LocalService } from '../../services/local.service';
+import { MyListService } from '../../services/my-list.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -14,7 +14,7 @@ export class SearchPage implements OnInit {
   searchTerm: string = '';
   type: SearchType = SearchType.all;
  
-  constructor(private searchService: SearchService, private localService: LocalService) { }
+  constructor(private searchService: SearchService, private myListService: MyListService) { }
  
   ngOnInit() { }
  
