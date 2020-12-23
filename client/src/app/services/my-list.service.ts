@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subject, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
 })
-export class LocalService {
+export class MyListService {
   constructor(private http: HttpClient) {}
   createdIds = [];
-  moviesOfUser: Observable<any>;
   
 
   addMovieFromOMDB(OMDBObject) {
@@ -40,9 +39,22 @@ export class LocalService {
         this.createdIds.push(data.id);
     })
   }
-  getMoviesOfUser(userId) {
-    return this.http.get('http://localhost:3001/movies/of/' + userId);
-  }
+  getMyList(userId = 1) {
+    return this.http.get('http://localhost:3001/movies/of/' + userId)/*  .pipe(
+      map(responseData => {
+        const moviesArray = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            moviesArray.push({ ...responseData[key], id: key });
+          }
+        }
+        return moviesArray;
+      }),
+      catchError(errorRes => {
+        return throwError(errorRes);
+      })
+    ); */
+}
 
   /* getLocalID(item) {
     const movies = this.getMoviesOfUser(1);
