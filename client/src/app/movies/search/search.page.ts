@@ -23,8 +23,8 @@ export class SearchPage implements OnInit {
   }
 
   getCorrectRoute(item) {
-    const localID = null;
-    if (typeof localID === "number") return "/my-list/" + localID;
+    let localID = this.myListService.getLocalID(item);
+    if (typeof localID === "number") return "/myList/" + localID;
     return "/search/" + item.imdbID;
   };
 }
