@@ -1,7 +1,7 @@
 import { SearchService } from '../../../services/search.service';
 import { MyListService } from '../../../services/my-list.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
  
 @Component({
   selector: 'app-movie-details',
@@ -11,13 +11,14 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailPage implements OnInit {
  
   information = null;
+  id = null;
   
-  constructor(private activatedRoute: ActivatedRoute, private searchService: SearchService, private myListService: MyListService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private searchService: SearchService, private myListService: MyListService) { }
  
   ngOnInit() {
-    let id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
  
-    this.searchService.getDetails(id).subscribe(result => {
+    this.searchService.getDetails(this.id).subscribe(result => {
       this.information = result;
     });
   }
@@ -28,6 +29,7 @@ export class DetailPage implements OnInit {
 
   addMovieToList() {
     this.myListService.addMovieFromOMDB(this.information);
+    this.router.navigate(['/myList/', this.myListService.getLocalID(this.id) || 1]);
   }
 
   

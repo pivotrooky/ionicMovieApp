@@ -7,13 +7,17 @@ import { Observable } from 'rxjs';
   templateUrl: './my-list.page.html',
   styleUrls: ['./my-list.page.scss'],
 })
-export class MyListPage implements OnInit {
+export class MyListPage {
 
   myListItems: Observable<any>;
  
   constructor(private myListService: MyListService) { }
  
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.handleLocalSearch();
+  }
+
+  ionViewDidEnter() {
     this.handleLocalSearch();
   }
  
