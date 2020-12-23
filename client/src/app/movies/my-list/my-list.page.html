@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-button expand="full" [routerLink]="'/add'"> <ion-icon name="add" slot="start"></ion-icon> Add movie from scratch</ion-button>
   <ion-virtual-scroll [items]="myListItems" approxItemHeight="320px">
     <ion-item
       button
@@ -38,4 +39,5 @@
       </ion-grid>
     </ion-item>
   </ion-virtual-scroll>
+  <ion-button expand="full" [routerLink]="'/search'"> <ion-icon name="add" slot="start"></ion-icon>Search for new media in OMDB!</ion-button>
 </ion-content>

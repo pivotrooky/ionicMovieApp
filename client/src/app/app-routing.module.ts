@@ -23,16 +23,15 @@ const routes: Routes = [
     path: 'myList',
     loadChildren: () => import('./movies/my-list/my-list.module').then( m => m.MyListPageModule)
   },
-/*   {
+{
     path: 'add',
-    loadChildren: () => import('./movies/add/add.module').then( m => m.AddPageModule)
+    loadChildren: () => import('./movies/my-list/add/add.module').then( m => m.AddPageModule)
   },
   {
     path: 'edit',
-    loadChildren: () => import('./movies/edit/edit.module').then( m => m.EditPageModule)
+    loadChildren: () => import('./movies/my-list/edit/edit.module').then( m => m.EditPageModule)
   },
-  
-  */
+
 ];
 
 @NgModule({
