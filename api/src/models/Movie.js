@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    imdbId: {
+    imdbID: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -53,10 +53,6 @@ module.exports = (sequelize) => {
     },
     genre: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
       allowNull: true,
     },
   });

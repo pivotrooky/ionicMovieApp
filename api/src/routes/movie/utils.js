@@ -19,40 +19,48 @@ const getOnlyMovie = (req, res) => {
 
 // Crea una nueva movie y la guarda en la base de datos
 const createMovie = (req, res) => {
-  const {
-    title,
-    year,
-    imdbId,
-    imdbRating,
-    type,
-    image,
-    website,
-    plot,
-    actors,
-    director,
-    genre,
-    userId,
-  } = req.body;
+  const movieKeys = [
+    "title",
+    "year",
+    "imdbID",
+    "imdbRating",
+    "type",
+    "image",
+    "website",
+    "plot",
+    "actors",
+    "director",
+    "genre",
+    "userId",
+  ];
 
-  Movie.findOne()
-  Movie.create({
-    title,
-    year,
-    imdbId,
-    imdbRating,
-    type,
-    image,
-    website,
-    plot,
-    actors,
-    director,
-    userId,
-    genre,
-  })
-    .then((movie) => {
-      res.status(200).send(movie);
-    })
-    .catch((err) => res.send(err));
+  const newMovie = {};
+  movieKeys.forEach((key) => {
+    let value = req.body[key];
+    if (!value) value = null;
+    newMovie[key] = value;
+  });
+
+  let createdMovie = null;
+
+  const { imdbID, userId } = newMovie;
+
+  if (imdbID) {
+    Movie.findOne({ where: { imdbID, userId } })
+      .then((foundMovie) => {
+        createdMovie = foundMovie;
+      })
+      .then(() => {
+        if (createdMovie) {
+          return res
+            .status(200)
+            .send("ya hay una peli creada con ese imdbID para ese usuario");
+        }
+        Movie.create({ ...newMovie }).then((movie) =>
+          res.status(200).send(movie)
+        );
+      });
+  }
 };
 
 //REFACTOR!
@@ -112,6 +120,14 @@ const getMoviesOfUser = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+const getLocalID = (req, res) => {
+  const { imdbID, userId } = req.body;
+
+  Movie.findOne({ where: { imdbID, userId } })
+    .then((movie) => res.status(200).send({localID: movie.id}))
+    .catch((err) => res.send(err));
+};
+
 module.exports = {
   getAllMovies,
   getOnlyMovie,
@@ -119,4 +135,5 @@ module.exports = {
   deleteMovie,
   modifyMovie,
   getMoviesOfUser,
+  getLocalID,
 };
