@@ -6,12 +6,16 @@ const {
 	deleteMovie,
 	modifyMovie,
 	getMoviesOfUser,
+	getLocalID,
 } = require('./utils.js');
 
 // ------------------- ROUTE PRODUCTOS ------------------
 
 //Get --> Mostrar todas las películas
 server.get('/', getAllMovies);
+
+// Get --> Devuelve el id local de una película, si existe
+server.post('/local/', getLocalID);
 
 // Get --> Muestra los datos de una sola película
 server.get('/:id', getOnlyMovie);
