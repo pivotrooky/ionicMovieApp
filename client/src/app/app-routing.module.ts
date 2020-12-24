@@ -42,7 +42,7 @@ const routes: Routes = [
       import("./movies/my-list/add/add.module").then((m) => m.AddPageModule),
   },
   {
-    path: "edit",
+    path: "edit/:id",
     loadChildren: () =>
       import("./movies/my-list/edit/edit.module").then((m) => m.EditPageModule),
   },
