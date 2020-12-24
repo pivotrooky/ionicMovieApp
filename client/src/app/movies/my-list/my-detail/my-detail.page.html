@@ -50,8 +50,17 @@
         Open Website
       </ion-button>
       <ion-button expand="full" (click)="removeThisAndGetOut()">
-        <ion-icon name="remove-circle" slot="start"></ion-icon>
+        <ion-icon name="remove" slot="start"></ion-icon>
         Remove movie from my list :(
+      </ion-button>
+
+      <ion-button expand="full" [routerLink]="['/edit/', item.id]">
+        <ion-icon name="create" slot="start"></ion-icon>
+        Edit movie data
+      </ion-button>
+      <ion-button expand="full" (click)="restoreDataFromOMDB()">
+        <ion-icon name="undo" slot="start"></ion-icon>
+        Restore data from IMDB :)
       </ion-button>
     </ion-card-content>
   </ion-card>
