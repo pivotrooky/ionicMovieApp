@@ -17,10 +17,6 @@ export class MyListPage {
  
   constructor(private myListService: MyListService) { }
  
- /*  ionViewWillEnter() {
-    this.handleLocalSearch();
-  }
- */
   ionViewDidEnter() {
     this.handleLocalSearch();
   }

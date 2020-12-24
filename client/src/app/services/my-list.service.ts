@@ -11,7 +11,8 @@ export class MyListService {
 
   createdIds = [];
 
-  addMovieFromOMDB(OMDBObject) {
+  OMDBObjectToLocalObject(OMDBObject) {
+    let userId = 1;
     for (let key in OMDBObject) {
       if (OMDBObject[key] === "N/A") OMDBObject[key] = null;
     }
@@ -29,9 +30,7 @@ export class MyListService {
       Director,
       Genre,
     } = OMDBObject;
-    let userId = 1;
-    //later we'll get this from local/sessionstorage...?
-    const data = {
+    const localObject = {
       title: Title,
       year: parseInt(Year),
       imdbID,
@@ -45,6 +44,11 @@ export class MyListService {
       userId,
       genre: Genre,
     };
+    return localObject;
+  }
+
+  addMovieFromOMDB(OMDBObject) {
+    const data = this.OMDBObjectToLocalObject(OMDBObject);
 
     this.http
       .post<any>("http://localhost:3001/movies/", data)
@@ -84,5 +88,11 @@ export class MyListService {
 
   removeItem(id) {
     return this.http.delete("http://localhost:3001/movies/" + id);
+  }
+
+  restoreDataFromOMDB(newData, movieID) {
+    console.log(newData, "soy New Data");
+    const data = this.OMDBObjectToLocalObject(newData);
+    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
   }
 }
