@@ -1,6 +1,10 @@
 import { MyListService } from '../../services/my-list.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: "root",
+})
 
 @Component({
   selector: 'app-search',
@@ -9,14 +13,14 @@ import { Observable } from 'rxjs';
 })
 export class MyListPage {
 
-  myListItems: Observable<any>;
+  myListItems = [];
  
   constructor(private myListService: MyListService) { }
  
-  ionViewWillEnter() {
+ /*  ionViewWillEnter() {
     this.handleLocalSearch();
   }
-
+ */
   ionViewDidEnter() {
     this.handleLocalSearch();
   }

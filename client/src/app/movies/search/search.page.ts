@@ -1,30 +1,25 @@
-import { SearchService, SearchType } from '../../services/search.service';
-import { MyListService } from '../../services/my-list.service';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { SearchService, SearchType } from "../../services/search.service";
+import { MyListService } from "../../services/my-list.service";
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
+  selector: "app-search",
+  templateUrl: "./search.page.html",
+  styleUrls: ["./search.page.scss"],
 })
-export class SearchPage implements OnInit {
-
+export class SearchPage {
   results: Observable<any>;
-  searchTerm: string = '';
+  searchTerm: string = "";
   type: SearchType = SearchType.all;
- 
-  constructor(private searchService: SearchService, private myListService: MyListService) { }
- 
-  ngOnInit() { }
- 
+
+  constructor(
+    private searchService: SearchService,
+    private myListService: MyListService,
+  ) {}
+  
+
   handleSearch() {
     this.results = this.searchService.searchData(this.searchTerm, this.type);
   }
-
-  getCorrectRoute(item) {
-    let localID = this.myListService.getLocalID(item);
-    if (typeof localID === "number") return "/myList/" + localID;
-    return "/search/" + item.imdbID;
-  };
 }
