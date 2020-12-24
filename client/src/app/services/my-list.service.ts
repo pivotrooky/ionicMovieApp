@@ -1,23 +1,34 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Subject, throwError } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class MyListService {
   constructor(private http: HttpClient) {}
+
   createdIds = [];
-  
 
   addMovieFromOMDB(OMDBObject) {
-    
     for (let key in OMDBObject) {
       if (OMDBObject[key] === "N/A") OMDBObject[key] = null;
     }
-    
-    const {Title, Year, Type, Poster, Website, imdbID, imdbRating, Plot, Actors, Director, Genre} = OMDBObject;
+
+    const {
+      Title,
+      Year,
+      Type,
+      Poster,
+      Website,
+      imdbID,
+      imdbRating,
+      Plot,
+      Actors,
+      Director,
+      Genre,
+    } = OMDBObject;
     let userId = 1;
     //later we'll get this from local/sessionstorage...?
     const data = {
@@ -33,14 +44,18 @@ export class MyListService {
       director: Director,
       userId,
       genre: Genre,
-    }
+    };
 
-    this.http.post<any>('http://localhost:3001/movies/', data).subscribe(data => {
+    this.http
+      .post<any>("http://localhost:3001/movies/", data)
+      .subscribe((data) => {
         this.createdIds.push(data.id);
-    })
+      });
   }
   getMyList(userId = 1) {
-    return this.http.get('http://localhost:3001/movies/of/' + userId)/*  .pipe(
+    return this.http.get(
+      "http://localhost:3001/movies/of/" + userId
+    ); /*  .pipe(
       map(responseData => {
         const moviesArray = [];
         for (const key in responseData) {
@@ -54,24 +69,20 @@ export class MyListService {
         return throwError(errorRes);
       })
     ); */
-}
+  }
 
-getLocalID(imdbID) {
-  let list = this.getMyList();
-  //console.log(list, "lista");
-  return null;
-}
+  getLocalID(imdbID, userId = 1) {
+    return this.http.post("http://localhost:3001/movies/local", {
+      imdbID,
+      userId,
+    });
+  }
 
-getMyDetails(id) {
-  return this.http.get('http://localhost:3001/movies/' + id);
-}
+  getMyDetails(id) {
+    return this.http.get("http://localhost:3001/movies/" + id);
+  }
 
-removeItem(id) {
-  return this.http.delete('http://localhost:3001/movies/' + id);
-}
-
-  /* getLocalID(item) {
-    const movies = this.getMoviesOfUser(1);
-    const id = movies.find(m => m.imdbID === item.imdbID)?.id;
-  } */
+  removeItem(id) {
+    return this.http.delete("http://localhost:3001/movies/" + id);
+  }
 }
