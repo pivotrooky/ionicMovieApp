@@ -56,14 +56,14 @@ const createMovie = (req, res) => {
             .status(200)
             .send("ya hay una peli creada con ese imdbID para ese usuario");
         }
-        Movie.create({ ...newMovie }).then((movie) =>
-          res.status(200).send(movie)
-        );
+        Movie.create(newMovie).then((movie) => res.status(200).send(movie));
       });
+  } else {
+    Movie.create(newMovie).then((movie) => res.status(200).send(movie));
+    //refactor needed
   }
 };
 
-//REFACTOR!
 const modifyMovie = (req, res) => {
   const newKeys = [
     "title",
@@ -124,7 +124,7 @@ const getLocalID = (req, res) => {
   const { imdbID, userId } = req.body;
 
   Movie.findOne({ where: { imdbID, userId } })
-    .then((movie) => res.status(200).send({localID: movie.id}))
+    .then((movie) => res.status(200).send({ localID: movie.id }))
     .catch((err) => res.send(err));
 };
 
