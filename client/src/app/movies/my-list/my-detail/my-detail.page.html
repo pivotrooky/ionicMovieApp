@@ -17,7 +17,7 @@
       <ion-img
         class="images"
         [src]="item.image"
-        *ngIf="item.imageoster != 'N/A'"
+        *ngIf="item.image != 'N/A'"
       ></ion-img>
       <ion-img
         class="images"
@@ -25,21 +25,6 @@
         *ngIf="item.image == 'N/A'"
       ></ion-img>
       {{ item.plot }}
-
-      <ion-item lines="none">
-        <ion-icon name="star-half" slot="start"></ion-icon>
-        <ion-label>{{ item.imdbRating }}</ion-label>
-      </ion-item>
-
-      <ion-item lines="none">
-        <ion-icon name="clipboard" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ item.director }}</ion-label>
-      </ion-item>
-
-      <ion-item lines="none">
-        <ion-icon name="contacts" slot="start"></ion-icon>
-        <ion-label text-wrap>{{ item.actors }}</ion-label>
-      </ion-item>
 
       <ion-button
         expand="full"
@@ -58,7 +43,8 @@
         <ion-icon name="create" slot="start"></ion-icon>
         Edit movie data
       </ion-button>
-      <ion-button expand="full" (click)="restoreDataFromOMDB()">
+      <ion-button expand="full" (click)="restoreDataFromOMDB()"
+      *ngIf="item.imdbID !== null">
         <ion-icon name="undo" slot="start"></ion-icon>
         Restore data from IMDB :)
       </ion-button>
