@@ -5,13 +5,19 @@
 </ion-header>
 
 <ion-content class="ion-text-center" padding>
-  <form (ngSubmit)="onAddItem()" #f="ngForm">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
           <ion-item>
             <ion-label position="floating">Title</ion-label>
-            <ion-input type="text" ngModel name="title" required></ion-input>
+            <ion-input
+              type="text"
+              ngModel
+              name="title"
+              #movieTitle="ngModel"
+              required
+            ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -62,9 +68,8 @@
         </ion-col>
       </ion-row>
       <ion-row>
-          <ion-col size-sm="3" offset-sm="3">
-            
-        <ion-list radio-group>
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-list radio-group>
             <ion-list-header> Type </ion-list-header>
 
             <ion-item>
@@ -76,9 +81,8 @@
               <ion-label>Series</ion-label>
               <ion-radio value="series"></ion-radio>
             </ion-item>
-            
-        </ion-list>
-          </ion-col>
+          </ion-list>
+        </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
@@ -93,6 +97,7 @@
           >
             Cancel
           </ion-button>
+          <ion-button color="primary" (click)="onClear()">Clear</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
