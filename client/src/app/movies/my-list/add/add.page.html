@@ -5,17 +5,17 @@
 </ion-header>
 
 <ion-content class="ion-text-center" padding>
-  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <form (ngSubmit)="onSubmit()">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
           <ion-item>
             <ion-label position="floating">Title</ion-label>
             <ion-input
+              [(ngModel)]="form.title"
               type="text"
               ngModel
               name="title"
-              #movieTitle="ngModel"
               required
             ></ion-input>
           </ion-item>
@@ -25,7 +25,13 @@
         <ion-col size-sm="3" offset-sm="3">
           <ion-item>
             <ion-label position="floating">Genre/s</ion-label>
-            <ion-input type="text" ngModel name="genre" required></ion-input>
+            <ion-input
+              [(ngModel)]="form.genre"
+              type="text"
+              ngModel
+              name="genre"
+              required
+            ></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -36,6 +42,7 @@
             <ion-input
               type="number"
               ngModel
+              [(ngModel)]="form.year"
               name="year"
               placeholder="2000"
               required
@@ -46,8 +53,15 @@
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
           <ion-item>
-            <ion-label position="floating">Link to image</ion-label>
-            <ion-input #imageControl="ngModel" type="text" ngModel name="image" required></ion-input>
+            <ion-label position="floating">Link to valid image URL!</ion-label>
+            <ion-input
+              #imageControl="ngModel"
+              type="text"
+              [(ngModel)]="form.image"
+              ngModel
+              name="image"
+              required
+            ></ion-input>
           </ion-item>
           <!-- <ion-item *ngIf="imageControl.value !== '' && !urlRegex.test(imageControl.value)">
             <ion-text color="danger" class="error">
@@ -61,6 +75,7 @@
           <ion-item>
             <ion-label position="floating">Plot summary</ion-label>
             <ion-textarea
+              [(ngModel)]="form.plot"
               type="text"
               rows="6"
               cols="20"
@@ -75,7 +90,7 @@
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
           <ion-list>
-            <ion-radio-group [(ngModel)]="type" name="type">
+            <ion-radio-group [(ngModel)]="form.type" name="type">
               <ion-list-header> Type </ion-list-header>
 
               <ion-item>

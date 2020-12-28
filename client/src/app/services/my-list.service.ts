@@ -9,8 +9,6 @@ import { map, catchError } from "rxjs/operators";
 export class MyListService {
   constructor(private http: HttpClient) {}
 
-  createdIds = [];
-
   OMDBObjectToLocalObject(OMDBObject) {
     let userId = 1;
     for (let key in OMDBObject) {
@@ -50,29 +48,23 @@ export class MyListService {
   addMovieFromOMDB(OMDBObject) {
     const data = this.OMDBObjectToLocalObject(OMDBObject);
 
-    this.http
-      .post<any>("http://localhost:3001/movies/", data)
-      .subscribe((data) => {
-        this.createdIds.push(data.id);
-      });
+    this.postItem(data);
   }
+
+  postItem(data) {
+    this.http
+      .post("http://localhost:3001/movies/", data)
+      .subscribe();
+  }
+
+  putItem(movieID, data) {
+    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
+  }
+  
   getMyList(userId = 1) {
     return this.http.get(
       "http://localhost:3001/movies/of/" + userId
-    ); /*  .pipe(
-      map(responseData => {
-        const moviesArray = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            moviesArray.push({ ...responseData[key], id: key });
-          }
-        }
-        return moviesArray;
-      }),
-      catchError(errorRes => {
-        return throwError(errorRes);
-      })
-    ); */
+    );
   }
 
   getLocalID(imdbID, userId = 1) {
@@ -93,6 +85,6 @@ export class MyListService {
   restoreDataFromOMDB(newData, movieID) {
     console.log(newData, "soy New Data");
     const data = this.OMDBObjectToLocalObject(newData);
-    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
+    this.putItem(movieID, newData);
   }
 }
