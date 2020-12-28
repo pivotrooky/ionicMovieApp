@@ -1,15 +1,96 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { NgForm, NgModel } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MyListService } from "../../../services/my-list.service";
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.page.html',
-  styleUrls: ['./edit.page.scss'],
+  selector: "app-edit",
+  templateUrl: "./edit.page.html",
+  styleUrls: ["./edit.page.scss"],
 })
-export class EditPage implements OnInit {
+export class EditPage{
+  @ViewChild("imageControl") imageControl: ElementRef;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private myListService: MyListService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  ngOnInit() {
+  form = {
+    title: null,
+    genre: null,
+    year: null,
+    image: null,
+    plot: null,
+    type: null,
+  };
+
+  submitted = false;
+  movieId = null;
+  item = null;
+  urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
+
+  ionViewDidEnter() {
+    //mejorar con caché pero tener cuidado de no renderizar información desactualizada?
+    this.movieId = this.activatedRoute.snapshot.paramMap.get("id");
+
+    this.myListService.getMyDetails(this.movieId).subscribe((result) => {
+      this.item = result;
+      this.onReset();
+    });
   }
 
+  onCancel() {
+    this.router.navigate(["/myList"]);
+  }
+
+  onReset() {
+    const { title, genre, year, image, plot, type } = this.item;
+    this.form = { title, genre, year, image, plot, type };
+  }
+
+  editMovie() {
+
+    const { title, genre, year, image, plot, type } = this.form;
+
+    
+    console.log("Title is : " + title);
+    console.log("Year is : " + year);
+    console.log("Image is : " + image);
+    console.log("Genre is : " + genre);
+    console.log("Plot is : " + plot);
+    console.log("Type is:" + type);
+
+    const userId = 1;
+    const newData = {
+      title,
+      genre,
+      year,
+      image,
+      plot,
+      type,
+      userId,
+    };
+    console.log(newData);
+    return this.myListService.putItem(this.movieId, newData);
+  }
+
+  getBackToMyList() {
+    this.router.navigate(["/myList"]);
+    return;
+  }
+
+  onSubmit() {
+    if (this.form.image !== "" && !this.urlRegex.test(this.form.image)) {
+      this.form.image = "Image URL must be valid"!;
+      console.log(this.imageControl)
+      this.imageControl?.nativeElement?.focus();
+      return console.log("error de image");
+    }
+    //arreglar esto!
+
+    this.editMovie();
+    this.getBackToMyList();
+  }
 }
