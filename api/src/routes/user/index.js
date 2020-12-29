@@ -7,21 +7,21 @@ const {
 	modifyUser,
 } = require('./utils.js');
 
-// ------------------- ROUTE PRODUCTOS ------------------
+// ------------------- ROUTE USUARIOS ------------------
 
-//Get --> Mostrar todos los users
+//Get --> Muestra todos los usuarios
 server.get('/', getAllUsers);
 
-// Get --> Muestra los datos de un solo user
+// Get --> Muestra los datos de un solo usuario
 server.get('/:id', getOnlyUser);
 
-//Post --> Crear user
+//Post --> Crea un usuario
 server.post('/', createUser);
 
-//Put --> Modificar un user
+//Put --> Modifica un usuario
 server.put('/:id', modifyUser);
 
-//Delete --> Eliminar un user
+//Delete --> Elimina un usuario
 server.delete('/:id', deleteUser);
 
 module.exports = server;
