@@ -1,10 +1,13 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { 
+  AuthGuardService as AuthGuard 
+} from './services/auth.guard.service';
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "search",
+    redirectTo: "myList",
     pathMatch: "full",
   },
   {
@@ -13,12 +16,21 @@ const routes: Routes = [
       import("./auth/auth.module").then((m) => m.AuthPageModule),
   },
   {
+    path: "logout",
+    canActivate : [AuthGuard],
+    loadChildren: () =>
+      import("./auth/logout/logout.module").then((m) => m.LogoutPageModule),
+  },
+  
+  {
     path: "search",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/search/search.module").then((m) => m.SearchPageModule),
   },
   {
     path: "search/:id",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/search/detail/detail.module").then(
         (m) => m.DetailPageModule
@@ -26,11 +38,13 @@ const routes: Routes = [
   },
   {
     path: "myList",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/my-list/my-list.module").then((m) => m.MyListPageModule),
   },
   {
     path: "myList/:id",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/my-list/my-detail/my-detail.module").then(
         (m) => m.MyDetailPageModule
@@ -38,11 +52,13 @@ const routes: Routes = [
   },
   {
     path: "add",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/my-list/add/add.module").then((m) => m.AddPageModule),
   },
   {
     path: "edit/:id",
+    canActivate : [AuthGuard],
     loadChildren: () =>
       import("./movies/my-list/edit/edit.module").then((m) => m.EditPageModule),
   },
