@@ -62,7 +62,6 @@ export class EditPage{
     console.log("Plot is : " + plot);
     console.log("Type is:" + type);
 
-    const userId = 1;
     const newData = {
       title,
       genre,
@@ -70,7 +69,6 @@ export class EditPage{
       image,
       plot,
       type,
-      userId,
     };
     console.log(newData);
     return this.myListService.putItem(this.movieId, newData);

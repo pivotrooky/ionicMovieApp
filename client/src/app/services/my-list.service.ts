@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject, throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class MyListService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   OMDBObjectToLocalObject(OMDBObject) {
-    let userId = 1;
+    let userId = this.authService.getUserId();
     for (let key in OMDBObject) {
       if (OMDBObject[key] === "N/A") OMDBObject[key] = null;
     }
@@ -61,13 +60,13 @@ export class MyListService {
     this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
   }
   
-  getMyList(userId = 1) {
+  getMyList(userId) {
     return this.http.get(
       "http://localhost:3001/movies/of/" + userId
     );
   }
 
-  getLocalID(imdbID, userId = 1) {
+  getLocalID(imdbID, userId) {
     return this.http.post("http://localhost:3001/movies/local", {
       imdbID,
       userId,

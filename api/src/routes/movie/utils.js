@@ -1,13 +1,13 @@
 const { Movie, User } = require("../../db.js");
 const { Op } = require("sequelize");
 
-// Muestra un JSON con todas las movies guardadas
+// Muestra un JSON con todas las películas guardadas
 const getAllMovies = (req, res) => {
   Movie.findAll()
     .then((movies) => res.status(200).send(movies))
     .catch((err) => res.send(err));
 };
-// Muestra los datos de una sola movie
+// Muestra los datos de una sola película
 const getOnlyMovie = (req, res) => {
   let { id } = req.params;
   Movie.findByPk(id)
@@ -17,7 +17,7 @@ const getOnlyMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-// Crea una nueva movie y la guarda en la base de datos
+// Crea una nueva película y la guarda en la base de datos
 const createMovie = (req, res) => {
   const movieKeys = [
     "title",
@@ -53,8 +53,8 @@ const createMovie = (req, res) => {
       .then(() => {
         if (createdMovie) {
           return res
-            .status(200)
-            .send("ya hay una peli creada con ese imdbID para ese usuario");
+            .status(409)
+            .send("You'd already added that to your list!");
         }
         Movie.create(newMovie).then((movie) => res.status(200).send(movie));
       });
@@ -94,7 +94,7 @@ const modifyMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-//Elimina la movie
+//Elimina una película
 
 const deleteMovie = (req, res) => {
   const { id } = req.params;
@@ -104,7 +104,7 @@ const deleteMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-//Get -> nos trae las películas de un usuario en especial
+//Nos trae las películas de un usuario en especial
 const getMoviesOfUser = (req, res) => {
   const { id } = req.params;
   console.log(id, "SOY USER ID");
@@ -120,6 +120,7 @@ const getMoviesOfUser = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+//Nos trae el ID en el contexto de la lista de un usuario, dándole como input el imdbID de una película
 const getLocalID = (req, res) => {
   const { imdbID, userId } = req.body;
 

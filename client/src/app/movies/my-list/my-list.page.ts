@@ -1,5 +1,6 @@
 import { MyListService } from "../../services/my-list.service";
 import { Component, Injectable } from "@angular/core";
+import { AuthService } from "../../services/auth.service";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -13,14 +14,15 @@ import { Observable } from "rxjs";
 export class MyListPage {
   myListItems = [];
 
-  constructor(private myListService: MyListService) {}
+  constructor(private myListService: MyListService, private authService: AuthService) {}
 
   ionViewDidEnter() {
     this.handleLocalSearch();
   }
 
   handleLocalSearch() {
-    this.myListService.getMyList().subscribe(
+    let userId = this.authService.getUserId();
+    this.myListService.getMyList(userId).subscribe(
       (userData) => {
         const currentList = userData[0].movies;
 
