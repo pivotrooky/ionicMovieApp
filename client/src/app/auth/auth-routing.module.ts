@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: AuthPage
+  },  {
+    path: 'logout',
+    loadChildren: () => import('./logout/logout.module').then( m => m.LogoutPageModule)
   }
+
 ];
 
 @NgModule({
