@@ -1,5 +1,6 @@
 import { MyListService } from "../../../services/my-list.service";
 import { SearchService } from "../../../services/search.service";
+import { AuthService } from "../../../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
@@ -9,7 +10,8 @@ import { NavController } from "@ionic/angular";
   templateUrl: "./my-detail.page.html",
   styleUrls: ["./my-detail.page.scss"],
 })
-export class MyDetailPage implements OnInit{
+export class MyDetailPage implements OnInit {
+  isOwner = false;
   item = null;
   originalItem = null;
   id = null;
@@ -20,7 +22,8 @@ export class MyDetailPage implements OnInit{
     private activatedRoute: ActivatedRoute,
     private myListService: MyListService,
     private searchService: SearchService,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -29,12 +32,28 @@ export class MyDetailPage implements OnInit{
 
     this.myListService.getMyDetails(this.id).subscribe((result) => {
       this.item = result;
+      this.checkOwnership();
       this.searchService.getDetails(this.item?.imdbID).subscribe((result) => {
         this.originalItem = result;
       });
     });
-    
+  }
 
+  checkOwnership() {
+    if (this.item !== null) {
+      let userId = this.authService.getUserId();
+      if (this.item.userId !== userId) return this.router.navigate(["/myList"]);
+      return this.isOwner = true;
+    }
+  }
+
+  ionViewWillEnter() {
+    this.isOwner = false;
+    this.checkOwnership();
+  }
+
+  ionViewDidEnter() {
+    if (!this.item?.title) return this.router.navigate(["/myList"]);
   }
 
   openWebsite() {

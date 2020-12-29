@@ -2,6 +2,7 @@ import { SearchService } from "../../../services/search.service";
 import { MyListService } from "../../../services/my-list.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "../../../services/auth.service";
 
 @Component({
   selector: "app-movie-details",
@@ -17,7 +18,8 @@ export class DetailPage implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private searchService: SearchService,
-    private myListService: MyListService
+    private myListService: MyListService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class DetailPage implements OnInit {
   }
 
   getLocalID() {
-    this.myListService.getLocalID(this.id, 1).subscribe((data) => {
+    this.myListService.getLocalID(this.id, this.authService.getUserId()).subscribe((data) => {
       this.local = data;
       this.goToLocalItem();
     });
