@@ -47,7 +47,6 @@ export class AddPage{
     console.log("Plot is : " + plot);
     console.log("Type is:" + type);
 
-    const userId = 1;
     const newMovie = {
       title,
       genre,
@@ -55,7 +54,6 @@ export class AddPage{
       image,
       plot,
       type,
-      userId,
     };
     console.log(newMovie);
     return this.myListService.postItem(newMovie);
