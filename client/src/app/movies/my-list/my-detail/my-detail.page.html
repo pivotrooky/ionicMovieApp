@@ -25,6 +25,16 @@
         *ngIf="item.image == 'N/A'"
       ></ion-img>
       {{ item.plot }}
+      <ionic5-star-rating
+      activeIcon="heart"
+      defaultIcon="heart-outline"
+      activeColor="#ff0000"
+      defaultColor="#111111"
+        readonly="false"
+        rating={{item.userRating}}
+        fontSize = "32px"
+        (ratingChanged)="setRating($event)">
+    </ionic5-star-rating>
 
       <ion-button
         expand="full"

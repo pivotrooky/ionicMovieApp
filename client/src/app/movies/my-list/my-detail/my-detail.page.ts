@@ -43,7 +43,7 @@ export class MyDetailPage implements OnInit {
     if (this.item !== null) {
       let userId = this.authService.getUserId();
       if (this.item.userId !== userId) return this.router.navigate(["/myList"]);
-      return this.isOwner = true;
+      return (this.isOwner = true);
     }
   }
 
@@ -53,6 +53,7 @@ export class MyDetailPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    console.log(this.item)
     if (!this.item?.title) return this.router.navigate(["/myList"]);
   }
 
@@ -72,5 +73,10 @@ export class MyDetailPage implements OnInit {
   restoreDataFromOMDB() {
     this.myListService.restoreDataFromOMDB(this.originalItem, this.id);
     this.router.navigate(["/myList"]);
+  }
+
+  setRating(rating) {
+    console.log("changed rating: ", rating);
+    this.myListService.putRating(this.id, rating);
   }
 }
