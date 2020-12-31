@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-avatar>
+            <img src="../../../assets/movie.png">
+          </ion-avatar>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">E-Mail</ion-label>
+              <ion-input
+                type="email"
+                ngModel
+                name="email"
+                required
+                email
+                #emailCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!emailCtrl.valid && emailCtrl.touched"
+              lines="none"
+            >
+              <ion-text color="danger" size="small">
+                Email address should be valid.
+              </ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input
+                type="password"
+                ngModel
+                name="password"
+                required
+                minlength="8"
+                #passwordCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+              *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
+              lines="none"
+            >
+              <ion-text color="danger" size="small">
+                Password should be at least 8 characters long.
+              </ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Repeat password</ion-label>
+              <ion-input
+                type="password"
+                ngModel
+                name="repeatPassword"
+                required
+                minlength="8"
+                #repeatPasswordCtrl="ngModel"
+              ></ion-input>
+            </ion-item>
+            <ion-item
+            *ngIf="passwordCtrl.value && repeatPasswordCtrl.value && passwordCtrl.value !== repeatPasswordCtrl.value"
+            lines="none"
+          >
+            <ion-text color="danger" size="small">
+              Passwords don't match :(
+            </ion-text>
+          </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            type="submit"
+            color="primary"
+            expand="block"
+            [disabled]="!f.valid"
+          >
+            Register!
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <p>
+        <a [routerLink]="['/login']">Or do you already have an account? Login!</a>
+      </p>
+    </ion-grid>
+  </form>
+
+  <!-- <div class="ion-text-center">
+    <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
+  </div> -->
+</ion-content>

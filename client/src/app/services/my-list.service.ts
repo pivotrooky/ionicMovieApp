@@ -52,7 +52,7 @@ export class MyListService {
 
   postItem(data) {
     this.http
-      .post("http://localhost:3001/movies/", data)
+      .post("http://localhost:3001/movies/", {...data, userId: this.authService.getUserId()})
       .subscribe();
   }
 
@@ -84,6 +84,6 @@ export class MyListService {
   restoreDataFromOMDB(newData, movieID) {
     console.log(newData, "soy New Data");
     const data = this.OMDBObjectToLocalObject(newData);
-    this.putItem(movieID, newData);
+    this.putItem(movieID, data);
   }
 }

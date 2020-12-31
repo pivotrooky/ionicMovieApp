@@ -3,6 +3,9 @@ import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 import { 
   AuthGuardService as AuthGuard 
 } from './services/auth.guard.service';
+import { 
+  UnAuthGuardService as UnAuthGuard 
+} from './services/unauth.guard.service';
 
 const routes: Routes = [
   {
@@ -11,15 +14,27 @@ const routes: Routes = [
     pathMatch: "full",
   },
   {
-    path: "auth",
-    loadChildren: () =>
-      import("./auth/auth.module").then((m) => m.AuthPageModule),
-  },
-  {
     path: "logout",
     canActivate : [AuthGuard],
     loadChildren: () =>
       import("./auth/logout/logout.module").then((m) => m.LogoutPageModule),
+  },
+  {
+    path: "login",
+    canActivate : [UnAuthGuard],
+    loadChildren: () =>
+      import("./auth/login/login.module").then((m) => m.LoginPageModule),
+  },
+  {
+    path: "register",
+    canActivate : [UnAuthGuard],
+    loadChildren: () =>
+      import("./auth/register/register.module").then((m) => m.RegisterPageModule),
+  },
+  {
+    path: "home",
+    loadChildren: () =>
+      import("./home/home.module").then((m) => m.HomePageModule),
   },
   
   {

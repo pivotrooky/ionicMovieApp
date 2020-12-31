@@ -1,21 +1,20 @@
-import { NgForm } from "@angular/forms";
+import { NgForm} from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 
 @Component({
-  selector: "app-auth",
-  templateUrl: "./auth.page.html",
-  styleUrls: ["./auth.page.scss"],
+  selector: "app-login",
+  templateUrl: "./login.page.html",
+  styleUrls: ["./login.page.scss"],
 })
-export class AuthPage implements OnInit {
-  isLogin = true;
+export class LoginPage implements OnInit {
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) {}
 
   ngOnInit() {}
@@ -31,27 +30,14 @@ export class AuthPage implements OnInit {
       .catch(({error}) => this.showAlert(error));
   }
 
-  signup(email, password) {
-    this.authService
-      .signup(email, password)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch(({error}) => this.showAlert(error));
-  }
-
-  onSwitchAuthMode() {
-    this.isLogin = !this.isLogin;
-  }
-
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
     }
     const { email, password } = form.value;
     form.reset();
-    if (this.isLogin) return this.login(email, password);
-    return this.signup(email, password);
+    return this.login(email, password);
+    //return this.signup(email, password);
   }
 
   showAlert(message: string) {

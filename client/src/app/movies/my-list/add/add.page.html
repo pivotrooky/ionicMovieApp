@@ -108,18 +108,32 @@
       </ion-row>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
-          <ion-button type="submit" color="primary" expand="block">
+          <ion-button
+            type="submit"
+            color="primary"
+            expand="block"
+            fill="clear"
+            expand="block"
+          >
             Add item to list!
           </ion-button>
           <ion-button
             type="submit"
             color="primary"
+            fill="clear"
             expand="block"
             [routerLink]="['/myList/']"
           >
             Cancel
           </ion-button>
-          <ion-button color="primary" (click)="onClear()">Clear</ion-button>
+          <ion-button
+            color="primary"
+            type="button"
+            fill="clear"
+            expand="block"
+            (click)="onClear()"
+            >Clear</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
