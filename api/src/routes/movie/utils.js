@@ -32,12 +32,13 @@ const createMovie = (req, res) => {
     "director",
     "genre",
     "userId",
+    "userRating",
   ];
 
   const newMovie = {};
   movieKeys.forEach((key) => {
     let value = req.body[key];
-    if (!value) value = null;
+    if (value === null || value === undefined) value = null;
     newMovie[key] = value;
   });
 
@@ -75,6 +76,7 @@ const modifyMovie = (req, res) => {
     "website",
     "plot",
     "genre",
+    "userRating",
   ];
   const newObj = {};
   newKeys.forEach((key) => {
