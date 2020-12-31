@@ -52,12 +52,16 @@ export class MyListService {
 
   postItem(data) {
     this.http
-      .post("http://localhost:3001/movies/", {...data, userId: this.authService.getUserId()})
+      .post("http://localhost:3001/movies/", {...data, userRating: 0, userId: this.authService.getUserId()})
       .subscribe();
   }
 
   putItem(movieID, data) {
     this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
+  }
+
+  putRating(movieID, userRating) {
+    this.http.put("http://localhost:3001/movies/" + movieID, {userRating}).subscribe();
   }
   
   getMyList(userId) {
