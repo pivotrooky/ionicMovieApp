@@ -29,7 +29,7 @@ const me = (req, res, next) => {
 //Si está logueado, se desloguea
 const userLogout = (req, res) => {
   req.logout();
-  return res.status(200).send('Successfully logged out :)');
+  return res.status(200).send(null);
 };
 
 

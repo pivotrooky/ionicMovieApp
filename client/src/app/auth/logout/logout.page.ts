@@ -13,7 +13,7 @@ export class LogoutPage {
   ionViewDidEnter() {
     this.authService
       .logout()
-      .then(() => this.router.navigate(["/myList"]))
+      .then(() => this.router.navigate(["/home"]))
       .catch((error) => console.log(error));
   }
 }
