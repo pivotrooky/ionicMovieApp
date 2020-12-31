@@ -55,5 +55,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    userRating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    }
   });
 };
