@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   deleteUserInfo() {
-    localStorage.removeItem("userInfo");
+    localStorage.clear();
   }
 
   getUserId() {

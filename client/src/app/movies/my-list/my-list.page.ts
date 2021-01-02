@@ -14,7 +14,21 @@ import { Observable } from "rxjs";
 export class MyListPage {
   myListItems = [];
 
-  constructor(private myListService: MyListService, private authService: AuthService) {}
+  constructor(
+    private myListService: MyListService,
+    private authService: AuthService
+  ) {}
+
+  ionViewWillEnter() {
+    let localStorageList = JSON.parse(localStorage.getItem("myList"));
+    if (localStorageList) {
+      let unsortedList = this.myListService.objectToArrayFromId(
+        localStorageList
+      );
+      this.myListItems = this.myListService.sortByName(unsortedList);
+      }
+    else this.myListItems = [];
+  }
 
   ionViewDidEnter() {
     this.handleLocalSearch();
@@ -22,27 +36,37 @@ export class MyListPage {
 
   handleLocalSearch() {
     let userId = this.authService.getUserId();
-    this.myListService.getMyList(userId).subscribe(
-      (userData) => {
-        const currentList = userData[0].movies;
+    this.myListService.getMyList(userId).subscribe((userData) => {
+      const newList = userData[0].movies;
 
-        if (currentList.length !== this.myListItems.length) {
-          //number of items changed, re-render list, no need to go inside loop
-          this.myListItems = currentList;
-          return;
-        }
+      this.checkIfLocalListNeedsUpdating(this.myListService.sortByName(newList));
+    });
+  }
 
-        for (let i = 0; i < currentList.length; i++) {
-          for (let prop in currentList[i]) {
-            if (currentList[i][prop] !== this.myListItems[i][prop]) {
-              //some data is different, so list should be re-rendered
-              this.myListItems = currentList;
-              return;
-            }
-          }
+  checkIfLocalListNeedsUpdating(newList) {
+    if (newList.length !== this.myListItems.length) {
+      //cambió el número de items, no es necesario entrar al loop, hay que renderizar la lista
+      return this.updateLocalList(newList);
+    }
+
+
+    for (let i = 0; i < newList.length; i++) {
+      for (let prop in newList[i]) {
+        if (newList[i][prop] !== this.myListItems[i][prop]) {
+          console.log("HAY DIFERENCIAS")
+          //hay diferencias, hay que re-renderizar la lista!
+          return this.updateLocalList(newList);
         }
-        //avoid unnecessary re-rendering
       }
-    );
+    }
+  }
+
+  updateLocalList(newList) {
+    this.myListItems = newList;
+
+    //actualizo localStorage de myList
+
+    let newLocalStorageList = this.myListService.arrayToObjectFromId(newList);
+    localStorage.setItem("myList", JSON.stringify(newLocalStorageList));
   }
 }
