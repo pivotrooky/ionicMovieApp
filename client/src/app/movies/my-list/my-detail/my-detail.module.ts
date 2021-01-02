@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MyDetailPageRoutingModule } from './my-detail-routing.module';
+import { StarRatingModule } from 'ionic5-star-rating';
 
 import { MyDetailPage } from './my-detail.page';
 
@@ -13,6 +14,7 @@ import { MyDetailPage } from './my-detail.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    StarRatingModule,
     MyDetailPageRoutingModule
   ],
   declarations: [MyDetailPage]

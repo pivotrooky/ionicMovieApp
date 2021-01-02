@@ -52,18 +52,44 @@ export class MyListService {
 
   postItem(data) {
     this.http
-      .post("http://localhost:3001/movies/", {...data, userId: this.authService.getUserId()})
+      .post("http://localhost:3001/movies/", {
+        ...data,
+        userRating: 0,
+        userId: this.authService.getUserId(),
+      })
       .subscribe();
   }
 
   putItem(movieID, data) {
     this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
   }
-  
+
+  arrayToObjectFromId(array) {
+    const obj = {};
+    for (let item of array) {
+      obj[item.id] = item;
+    }
+    return obj;
+  }
+
+  objectToArrayFromId(object) {
+    let array = [];
+
+    for (let id in object) {
+      array.push(object[id]);
+    }
+
+    return array;
+  }
+
+  putRating(movieID, userRating) {
+    this.http
+      .put("http://localhost:3001/movies/" + movieID, { userRating })
+      .subscribe();
+  }
+
   getMyList(userId) {
-    return this.http.get(
-      "http://localhost:3001/movies/of/" + userId
-    );
+    return this.http.get("http://localhost:3001/movies/of/" + userId);
   }
 
   getLocalID(imdbID, userId) {
@@ -86,4 +112,19 @@ export class MyListService {
     const data = this.OMDBObjectToLocalObject(newData);
     this.putItem(movieID, data);
   }
+
+  sortByName(array) {
+    array.sort((a, b) => {
+      if (a?.title < b?.title) {
+        return -1;
+      }
+      if (a?.title > b?.title) {
+        return 1;
+      }
+      return 0;
+    });
+    
+  return array;
+  }
+
 }
