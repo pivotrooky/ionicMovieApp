@@ -1,7 +1,20 @@
 ion-icon {
   font-size: 32px;
   /*  :hover {
-     background-color: red;
-   } */
+      background-color: red;
+    } */
+}
+
+/* * {
+  text-align: center;
+} */
+.item.active,
+.item.activated,
+.item-complex.active .item-content,
+.item-complex.activated .item-content,
+.item .item-content.active,
+.item .item-content.activated {
+  border-color: #ccc;
+  background-color: #ff0000;
 }
 /*# sourceMappingURL=search.page.css.map */

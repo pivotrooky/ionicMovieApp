@@ -13,13 +13,17 @@
     <ion-col>
       <ion-searchbar
         ngModel
-        #filterValue = "ngModel"
-        placeholder="Filter by keyword!"
-        (ionInput)="filterList()"
+        placeholder="Filter in your list!"
+        [(ngModel)]="filterValue"
       ></ion-searchbar>
     </ion-col>
   </ion-row>
-  <ion-virtual-scroll [items]="filteredItems" approxItemHeight="320px">
+  <ion-row *ngIf="filteredItems.length === 0">
+    <ion-col class="no-items">
+      <ion-text> No items matched :( </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-virtual-scroll [items]="filteredItems" approxItemHeight="320px" *ngIf="filteredItems.length > 0">
     <ion-item
       button
       *virtualItem="let item"
