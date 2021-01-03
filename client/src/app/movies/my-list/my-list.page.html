@@ -9,7 +9,17 @@
     <ion-icon name="add" slot="start"></ion-icon> Add movie from
     scratch</ion-button
   >
-  <ion-virtual-scroll [items]="myListItems" approxItemHeight="320px">
+  <ion-row>
+    <ion-col>
+      <ion-searchbar
+        ngModel
+        #filterValue = "ngModel"
+        placeholder="Filter by keyword!"
+        (ionInput)="filterList()"
+      ></ion-searchbar>
+    </ion-col>
+  </ion-row>
+  <ion-virtual-scroll [items]="filteredItems" approxItemHeight="320px">
     <ion-item
       button
       *virtualItem="let item"
