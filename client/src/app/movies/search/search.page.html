@@ -6,6 +6,7 @@
 
 <ion-content>
   <ion-searchbar
+    placeholder="Search new media!"
     [(ngModel)]="searchTerm"
     (ionChange)="handleSearch($event)"
   ></ion-searchbar>
@@ -17,7 +18,12 @@
       <ion-select-option value="movie">Movies</ion-select-option>
       <ion-select-option value="series">TV Shows</ion-select-option>
     </ion-select>
-  </ion-item>
+  </ion-item><!-- 
+  <ion-row *ngIf="!results">
+    <ion-col>
+      <ion-text> No items matched :( </ion-text>
+    </ion-col>
+  </ion-row> -->
   <ion-virtual-scroll [items]="results | async" approxItemHeight="320px">
     <ion-item
       button

@@ -82,6 +82,27 @@ export class MyListService {
     return array;
   }
 
+  
+
+  isSameMovieList(oldArray, newArray) {
+    let oldIDs = [];
+    let newIDs = [];
+
+    oldArray.forEach((item) => oldIDs.push(item.id));
+    newArray.forEach((item) => newIDs.push(item.id));
+
+    oldIDs.sort();
+    newIDs.sort();
+
+    if (oldIDs.length !== newIDs.length) return false;
+
+    for (let index in oldIDs) {
+      if (oldIDs[index] !== newIDs[index]) return false;
+    }
+
+    return true;
+  }
+
   putRating(movieID, userRating) {
     this.http
       .put("http://localhost:3001/movies/" + movieID, { userRating })
