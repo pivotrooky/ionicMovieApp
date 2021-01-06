@@ -1,5 +1,5 @@
 import { MyListService } from "../../services/my-list.service";
-import { Component, Injectable, ElementRef, ViewChild } from "@angular/core";
+import { Component, Injectable } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
@@ -15,12 +15,13 @@ import { Observable } from "rxjs";
 export class MyListPage {
   //separo myListItems de filteredItems para poder filtrar rápidamente
   //y al mismo tiempo seguir teniendo la ventaja de guardar los items fetcheados previamente
-  //de mi lista y compararlos con lo nuevo para ver si es necesario re-renderizar o no
+  //de mi lista y compararlos con lo nuevo para que checkIfLocalListNeedsUpdating pueda funcionar como debe, sin llamar a updateLocalList todo el tiempo
 
   myListItems = [];
   filteredItems = [];
+  filterValue = "";
 
-  @ViewChild("filterValue") filterValue;
+  /* @ViewChild("filterValue") filterValue; */
 
   constructor(
     private myListService: MyListService,
@@ -43,6 +44,12 @@ export class MyListPage {
   ionViewDidEnter() {
     this.handleLocalSearch();
     this.filterValue = "";
+
+    const keepListFiltered = this.keepListFiltered.bind(this);
+    setInterval(keepListFiltered, 300);
+    //intentar bindear el cambio de valor al input en función del evento de cambio traía errores
+    //y no me parece que lastime mucho la performance hacer comparaciones entre arrays de listas chicas.
+    //aunque seguramente esta solución de usar setInterval no sea escalable
   }
 
   handleLocalSearch() {
@@ -66,7 +73,6 @@ export class MyListPage {
     for (let i = 0; i < newList.length; i++) {
       for (let prop in newList[i]) {
         if (newList[i][prop] !== this.myListItems[i][prop]) {
-          console.log("HAY DIFERENCIAS");
           //hay diferencias, hay que re-renderizar la lista!
           return this.updateLocalList(newList);
         }
@@ -74,19 +80,46 @@ export class MyListPage {
     }
   }
 
-  filterList() {
-    let filterValue = this.filterValue?.control?.value;
+  keepListFiltered() {
+    const filterValue = this.filterValue;
+    //agarro el valor de filtro actual
 
-    if (filterValue === "") return this.filteredItems = this.myListItems;
+    //me fijo si se están mostrando todos los items
+    const isShowingAllItems = this.myListService.isSameMovieList(
+      this.filteredItems,
+      this.myListItems
+    );
 
-    console.log(filterValue, "soyFilterValue")
+    if (!filterValue && !isShowingAllItems)
+      return (this.filteredItems = this.myListItems);
+      //si el input está vacío y no se están mostrando todos los items, tengo que hacer la actualización y mostrar todo
+      //en este caso, significa que el usuario estaba filtrando y dejó de filtrar
 
-    this.filteredItems = this.filteredItems.filter((item) => {
-      if (item.title.includes(filterValue)) return item;
+    const newFilteredItems = this.filterList(filterValue);
+    //acá recién aplico el nuevo filtro. Todavía no sé si debo reemplazar la lista actual.
+
+    const listStillTheSame = this.myListService.isSameMovieList(
+      this.filteredItems,
+      newFilteredItems
+    );
+    //me fijo a ver si sería necesario actualizar la lista filtrada
+
+    if (listStillTheSame) return;
+
+    //recién acá hago la actualización
+    return (this.filteredItems = newFilteredItems);
+  }
+
+  filterList(filterValue) {
+    //por ahora solo filtro en base a un par de atributos, después podría filtrar en base a otros atributos de la película
+    //podría ser una buena idea tener criterios distintos para cada atributo
+    //por ej como pasa con título vs año, que para el primero alcance con que haya una coincidencia parcial mientras que el primero necesita una total
+    return this.myListItems.filter((item) => {
+      if (item.title.toLowerCase().includes(filterValue.toLowerCase()))
+        return item;
+      if (item.year == filterValue) return item;
       return null;
     });
-
-    return;
   }
 
   updateLocalList(newList) {
