@@ -41,6 +41,7 @@ export class LoginPage implements OnInit {
   }
 
   showAlert(message: string) {
+    if (typeof message !== "string") message = "Unknown error";
     this.alertCtrl
       .create({
         header: "Authentication failed",
