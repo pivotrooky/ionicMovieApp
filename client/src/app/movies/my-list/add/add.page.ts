@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { NgForm, NgModel } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { MyListService } from "../../../services/my-list.service";
+import { AlertController } from "@ionic/angular";
 
 @Component({
   selector: "app-add",
@@ -10,7 +11,7 @@ import { MyListService } from "../../../services/my-list.service";
 })
 export class AddPage{
   @ViewChild("imageControl") imageControl: ElementRef;
-  constructor(private router: Router, private myListService: MyListService) {}
+  constructor(private router: Router, private myListService: MyListService, private alertCtrl: AlertController) {}
 
   form = {
     title: null,
@@ -26,14 +27,29 @@ export class AddPage{
 
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 
-  @ViewChild("f") movieForm: NgForm;
 
   onCancel() {
     this.router.navigate(["/myList"]);
   }
 
-  onClear() {
-    this.movieForm.reset();
+  onClear(form: NgForm) {
+    this.alertCtrl
+      .create({
+        header: "Confirm!",
+        message: "Are you sure you want to reset this form?",
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          }, {
+            text: 'Okay',
+            handler: () => {
+              form.reset()
+            }
+          }
+        ]
+      })
+      .then((alertEl) => alertEl.present());
   }
 
   addMovieToList() {

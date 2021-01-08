@@ -25,7 +25,7 @@ export class RegisterPage implements OnInit {
       .then((response) => {
         console.log(response)
       })
-      .catch(({error}) => this.showAlert(error));
+      .catch(({error}) => this.showAlertAuth(error));
   }
 
   onSubmit(form: NgForm) {
@@ -38,7 +38,7 @@ export class RegisterPage implements OnInit {
     return this.router.navigate(["/login"]);
   }
 
-  showAlert(message: string) {
+  showAlertAuth(message: string) {
     this.alertCtrl
       .create({
         header: "Authentication failed",
