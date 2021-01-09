@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -26,10 +26,14 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @font-face {
-    font-family: 'Roboto';
-    src: url("../../client/src/assets/fonts/roboto/Roboto-Regular.ttf");
-    }
-    
-    * {
-    font-family: 'Roboto' !important;
-    }
+  font-family: "Roboto";
+  src: url("../../client/src/assets/fonts/roboto/Roboto-Regular.ttf");
+}
+
+* {
+  font-family: "Roboto" !important;
+}
+
+/* .primary-background {
+    background: var(--ion-color-favorite);
+} */
