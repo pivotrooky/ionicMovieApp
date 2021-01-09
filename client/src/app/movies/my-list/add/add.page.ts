@@ -88,6 +88,7 @@ export class AddPage {
   }
 
   onSubmit() {
+    if (this.form.year > 2030) this.form.year = 2030;
     if (!this.types.includes(this.form.type))
       return console.log("error de type");
     if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
