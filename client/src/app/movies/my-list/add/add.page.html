@@ -46,9 +46,12 @@
               type="number"
               ngModel
               [(ngModel)]="form.year"
+              (ionInput)="validateYear()"
               name="year"
-              placeholder="2000"
+              placeholder="2021"
               required
+              min="1800"
+              max="2030"
             ></ion-input>
           </ion-item>
         </ion-col>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm, NgModel } from "@angular/forms";
 import { AuthService } from "../../../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -10,8 +10,6 @@ import { MyListService } from "../../../services/my-list.service";
   styleUrls: ["./edit.page.scss"],
 })
 export class EditPage {
-  @ViewChild("imageControl") imageControl: ElementRef;
-
   constructor(
     private router: Router,
     private myListService: MyListService,
@@ -33,7 +31,6 @@ export class EditPage {
   item = null;
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 
-
   ionViewDidEnter() {
     //mejorar con caché pero tener cuidado de no renderizar información desactualizada?
     this.movieId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -46,7 +43,6 @@ export class EditPage {
   }
 
   checkOwnership() {
-
     let userId = this.authService.getUserId();
     if (!this.item || this.item.userId !== userId)
       return this.router.navigate(["/myList"]);
@@ -62,6 +58,10 @@ export class EditPage {
     if (!this.item) return;
     const { title, genre, year, image, plot, type } = this.item;
     this.form = { title, genre, year, image, plot, type };
+  }
+
+  validateYear() {
+    if (this.form.year > 2030) return (this.form.year = 2030);
   }
 
   editMovie() {
@@ -92,11 +92,8 @@ export class EditPage {
   }
 
   onSubmit() {
-    if (this.form.image !== "" && !this.urlRegex.test(this.form.image)) {
-      this.form.image = "Image URL must be valid"!;
-      console.log(this.imageControl);
-      this.imageControl?.nativeElement?.focus();
-      return console.log("error de image");
+    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
+      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
     }
     //arreglar esto!
 

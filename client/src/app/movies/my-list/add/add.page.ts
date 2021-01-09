@@ -56,6 +56,10 @@ export class AddPage {
       .then((alertEl) => alertEl.present());
   }
 
+  validateYear() {
+    if (this.form.year > 2030) return (this.form.year = 2030);
+  }
+
   addMovieToList() {
     const { title, genre, year, image, plot, type } = this.form;
 
