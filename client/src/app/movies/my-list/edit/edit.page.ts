@@ -92,6 +92,7 @@ export class EditPage {
   }
 
   onSubmit() {
+    if (this.form.year > 2030) this.form.year = 2030;
     if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
       this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
     }

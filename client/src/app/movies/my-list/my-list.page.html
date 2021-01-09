@@ -8,12 +8,17 @@
 </ion-header>
 
 <ion-content>
-  <ion-button expand="full" [routerLink]="'/add'">
-    <ion-icon name="add" slot="start"></ion-icon> Add movie from
-    scratch</ion-button
-  >
   <ion-row>
-    <ion-col>
+    <ion-col size-sm="3" offset-sm="4">
+      <ion-button expand="block" [routerLink]="'/add'">
+        <ion-icon name="add" slot="start"></ion-icon> Add movie from
+        scratch</ion-button
+      >
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size-sm="3" offset-sm="4">
       <ion-searchbar
         ngModel
         placeholder="Find in your list!"
@@ -26,51 +31,70 @@
       <ion-text> No items matched :( </ion-text>
     </ion-col>
   </ion-row>
-  <ion-virtual-scroll [items]="filteredItems" approxItemHeight="320px" *ngIf="filteredItems.length > 0">
-    <ion-item
-      button
-      *virtualItem="let item"
-      [routerLink]="['/myList/', item.id]"
-    >
-      <ion-grid>
-        <ion-row>
-          <ion-col size="3">
-            <ion-avatar>
-              <ion-img [src]="item.image" *ngIf="item.image != 'N/A'"></ion-img>
-              <ion-img
-                [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
-                *ngIf="item.image == 'N/A'"
-              ></ion-img>
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="4">
-            <ion-label text-wrap>
-              <h3>{{ item.title }}</h3>
-              {{ item.year }}
-            </ion-label>
-          </ion-col>
-          <ion-col size="4">
-            <ionic5-star-rating
-              activeIcon="heart"
-              defaultIcon="heart-outline"
-              activeColor="#888888"
-              defaultColor="#111111"
-              readonly="true"
-              rating="{{item.userRating}}"
-              fontSize="16px"
-            >
-            </ionic5-star-rating>
-          </ion-col>
-          <ion-col size="1">
-            <ion-icon *ngIf="item.type == 'movie'" name="videocam"></ion-icon>
-            <ion-icon *ngIf="item.type == 'series'" name="tv"></ion-icon>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-virtual-scroll>
-  <ion-button expand="full" [routerLink]="'/search'">
-    <ion-icon name="add" slot="start"></ion-icon>Search for new media in
-    OMDB!</ion-button
-  >
+  <ion-row>
+    <ion-col size-sm="3" offset-sm="4">
+      <ion-virtual-scroll
+        [items]="filteredItems"
+        approxItemHeight="320px"
+        *ngIf="filteredItems.length > 0"
+      >
+        <ion-item
+          button
+          *virtualItem="let item"
+          [routerLink]="['/myList/', item.id]"
+        >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3">
+                <ion-avatar>
+                  <ion-img
+                    [src]="item.image"
+                    *ngIf="item.image != 'N/A'"
+                  ></ion-img>
+                  <ion-img
+                    [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
+                    *ngIf="item.image == 'N/A'"
+                  ></ion-img>
+                </ion-avatar>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label text-wrap>
+                  <h3>{{ item.title }}</h3>
+                  {{ item.year }}
+                </ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ionic5-star-rating
+                  activeIcon="heart"
+                  defaultIcon="heart-outline"
+                  activeColor="#888888"
+                  defaultColor="#111111"
+                  readonly="true"
+                  rating="{{item.userRating}}"
+                  fontSize="16px"
+                >
+                </ionic5-star-rating>
+              </ion-col>
+              <ion-col size="1">
+                <ion-icon
+                  *ngIf="item.type == 'movie'"
+                  name="videocam"
+                ></ion-icon>
+                <ion-icon *ngIf="item.type == 'series'" name="tv"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-virtual-scroll>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size-sm="3" offset-sm="4">
+      <ion-button expand="block" [routerLink]="'/search'">
+        <ion-icon name="add" slot="start"></ion-icon>Search for new media in
+        OMDB!</ion-button
+      >
+    </ion-col>
+  </ion-row>
 </ion-content>
