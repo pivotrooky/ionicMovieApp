@@ -15,21 +15,10 @@ export class SearchPage {
 
   constructor(
     private searchService: SearchService,
-    private myListService: MyListService,
   ) {}
   
 
   handleSearch() {
     this.results = this.searchService.searchData(this.searchTerm, this.type);
-  }
-}
-
-
-const names = ["Luis", "Juan", "Gonzalo"];
-
-function isNameInArray(name) {
-  for (let i = 0; i < names.length; i++) {
-    if (names[i] === name) return true;
-    else return false;
   }
 }
