@@ -1,16 +1,21 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { NgForm, NgModel } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 import { MyListService } from "../../../services/my-list.service";
+import { AlertController } from "@ionic/angular";
 
 @Component({
   selector: "app-add",
   templateUrl: "./add.page.html",
   styleUrls: ["./add.page.scss"],
 })
-export class AddPage{
+export class AddPage {
   @ViewChild("imageControl") imageControl: ElementRef;
-  constructor(private router: Router, private myListService: MyListService) {}
+  constructor(
+    private router: Router,
+    private myListService: MyListService,
+    private alertCtrl: AlertController
+  ) {}
 
   form = {
     title: null,
@@ -26,20 +31,34 @@ export class AddPage{
 
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 
-  @ViewChild("f") movieForm: NgForm;
-
   onCancel() {
     this.router.navigate(["/myList"]);
   }
 
-  onClear() {
-    this.movieForm.reset();
+  onClear(form: NgForm) {
+    this.alertCtrl
+      .create({
+        header: "Confirm!",
+        message: "Are you sure you want to reset this form?",
+        buttons: [
+          {
+            text: "Cancel",
+            role: "cancel",
+          },
+          {
+            text: "Okay",
+            handler: () => {
+              form.reset();
+            },
+          },
+        ],
+      })
+      .then((alertEl) => alertEl.present());
   }
 
   addMovieToList() {
     const { title, genre, year, image, plot, type } = this.form;
 
-    
     console.log("Title is : " + title);
     console.log("Year is : " + year);
     console.log("Image is : " + image);
@@ -65,15 +84,11 @@ export class AddPage{
   }
 
   onSubmit() {
-    if (!this.types.includes(this.form.type)) return console.log("error de type");
-    if (this.form.image !== "" && !this.urlRegex.test(this.form.image)) {
-      this.form.image = "Image URL must be valid"!;
-      console.log(this.imageControl)
-      this.imageControl?.nativeElement?.focus();
-      //bug
-      return console.log("error de image");
+    if (!this.types.includes(this.form.type))
+      return console.log("error de type");
+    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
+      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
     }
-    //arreglar esto!
     this.addMovieToList();
     this.getBackToMyList();
   }

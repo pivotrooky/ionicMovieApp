@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
         this.authService.setUserInfo(response);
         this.router.navigate(["myList"]);
       })
-      .catch(({error}) => this.showAlert(error));
+      .catch(({error}) => this.showAlertAuth(error));
   }
 
   onSubmit(form: NgForm) {
@@ -40,7 +40,8 @@ export class LoginPage implements OnInit {
     //return this.signup(email, password);
   }
 
-  showAlert(message: string) {
+  showAlertAuth(message: string) {
+    if (typeof message !== "string") message = "Unknown error";
     this.alertCtrl
       .create({
         header: "Authentication failed",

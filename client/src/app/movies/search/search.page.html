@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Search</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -39,7 +42,7 @@
                 *ngIf="item.Poster != 'N/A'"
               ></ion-img>
               <ion-img
-                [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
+                [src]="'https://simpleicon.com/wp-content/uploads/movie-3.png'"
                 *ngIf="item.Poster == 'N/A'"
               ></ion-img>
             </ion-avatar>

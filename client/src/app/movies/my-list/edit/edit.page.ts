@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { NgForm, NgModel } from "@angular/forms";
+import { AuthService } from "../../../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyListService } from "../../../services/my-list.service";
 
@@ -8,13 +9,14 @@ import { MyListService } from "../../../services/my-list.service";
   templateUrl: "./edit.page.html",
   styleUrls: ["./edit.page.scss"],
 })
-export class EditPage{
+export class EditPage {
   @ViewChild("imageControl") imageControl: ElementRef;
 
   constructor(
     private router: Router,
     private myListService: MyListService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   form = {
@@ -31,14 +33,25 @@ export class EditPage{
   item = null;
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 
+
   ionViewDidEnter() {
     //mejorar con caché pero tener cuidado de no renderizar información desactualizada?
     this.movieId = this.activatedRoute.snapshot.paramMap.get("id");
 
     this.myListService.getMyDetails(this.movieId).subscribe((result) => {
       this.item = result;
+      this.checkOwnership();
       this.onReset();
     });
+  }
+
+  checkOwnership() {
+
+    let userId = this.authService.getUserId();
+    if (!this.item || this.item.userId !== userId)
+      return this.router.navigate(["/myList"]);
+
+    return;
   }
 
   onCancel() {
@@ -46,15 +59,14 @@ export class EditPage{
   }
 
   onReset() {
+    if (!this.item) return;
     const { title, genre, year, image, plot, type } = this.item;
     this.form = { title, genre, year, image, plot, type };
   }
 
   editMovie() {
-
     const { title, genre, year, image, plot, type } = this.form;
 
-    
     console.log("Title is : " + title);
     console.log("Year is : " + year);
     console.log("Image is : " + image);
@@ -82,7 +94,7 @@ export class EditPage{
   onSubmit() {
     if (this.form.image !== "" && !this.urlRegex.test(this.form.image)) {
       this.form.image = "Image URL must be valid"!;
-      console.log(this.imageControl)
+      console.log(this.imageControl);
       this.imageControl?.nativeElement?.focus();
       return console.log("error de image");
     }
