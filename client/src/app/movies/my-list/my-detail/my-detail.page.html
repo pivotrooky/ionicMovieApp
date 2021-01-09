@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
       <ion-back-button defaultHref="/myList"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ item?.genre }}</ion-title>
@@ -26,15 +29,16 @@
       ></ion-img>
       {{ item.plot }}
       <ionic5-star-rating
-      activeIcon="heart"
-      defaultIcon="heart-outline"
-      activeColor="#ff0000"
-      defaultColor="#111111"
+        activeIcon="heart"
+        defaultIcon="heart-outline"
+        activeColor="#ff0000"
+        defaultColor="#111111"
         readonly="false"
-        rating={{item.userRating}}
-        fontSize = "32px"
-        (ratingChanged)="setRating($event)">
-    </ionic5-star-rating>
+        rating="{{item.userRating}}"
+        fontSize="32px"
+        (ratingChanged)="setRating($event)"
+      >
+      </ionic5-star-rating>
 
       <ion-button
         expand="full"
@@ -53,8 +57,11 @@
         <ion-icon name="create" slot="start"></ion-icon>
         Edit movie data
       </ion-button>
-      <ion-button expand="full" (click)="restoreDataFromOMDB()"
-      *ngIf="item.imdbID !== null">
+      <ion-button
+        expand="full"
+        (click)="restoreDataFromOMDB()"
+        *ngIf="item.imdbID !== null"
+      >
         <ion-icon name="arrow-undo" slot="start"></ion-icon>
         Restore data from IMDB :)
       </ion-button>

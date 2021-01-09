@@ -3,6 +3,8 @@ import { AuthService } from "../../../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NavController } from "@ionic/angular";
+import { AlertController } from "@ionic/angular";
+import { SearchService } from "../../../services/search.service";
 
 @Component({
   selector: "app-movie-details",
@@ -22,14 +24,13 @@ export class MyDetailPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private myListService: MyListService,
     public navCtrl: NavController,
-    private authService: AuthService
+    private authService: AuthService,
+    private searchService: SearchService,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.myListService.getMyDetails(this.id).subscribe((originalDetail) => {
-      this.originalItem = originalDetail;
-    });
   }
 
   ionViewWillEnter() {
@@ -37,6 +38,7 @@ export class MyDetailPage implements OnInit {
     this.getLocalDetails();
     this.getRemoteDetails();
     this.checkOwnership();
+    if (!this.originalItem) this.getOriginalItem();
   }
 
   ionViewDidEnter() {
@@ -66,6 +68,15 @@ export class MyDetailPage implements OnInit {
     if (localStorageDetail) this.item = localStorageDetail;
 
     //acá hay varios returns porque no es tan fácil manejarme con el operador "?." y prefiero ser más cuidadoso aunque implique que, en este caso, cueste leer más el código
+  }
+
+  getOriginalItem() {
+    this.searchService
+      .getDetails(this.item.imdbID)
+      .subscribe((originalDetail) => {
+        this.originalItem = originalDetail;
+        //ARREGLAR ESTO!
+      });
   }
 
   getRemoteDetails() {
@@ -111,8 +122,25 @@ export class MyDetailPage implements OnInit {
   }
 
   removeThisAndGetOut() {
-    this.removeThisFromMyList();
-    this.router.navigate(["/myList"]);
+    this.alertCtrl
+      .create({
+        header: "Confirm!",
+        message: "Are you sure you want to delete this item?",
+        buttons: [
+          {
+            text: "Cancel",
+            role: "cancel",
+          },
+          {
+            text: "Okay",
+            handler: () => {
+              this.removeThisFromMyList();
+              this.router.navigate(["/myList"]);
+            },
+          },
+        ],
+      })
+      .then((alertEl) => alertEl.present());
   }
 
   removeThisFromMyList() {
@@ -120,8 +148,29 @@ export class MyDetailPage implements OnInit {
   }
 
   restoreDataFromOMDB() {
-    this.myListService.restoreDataFromOMDB(this.originalItem, this.id);
-    this.router.navigate(["/myList"]);
+    this.alertCtrl
+      .create({
+        header: "Confirm!",
+        message:
+          "Are you sure you want to restore the original data for this item?",
+        buttons: [
+          {
+            text: "Cancel",
+            role: "cancel",
+          },
+          {
+            text: "Okay",
+            handler: () => {
+              this.myListService.restoreDataFromOMDB(
+                this.originalItem,
+                this.id
+              );
+              this.router.navigate(["/myList"]);
+            },
+          },
+        ],
+      })
+      .then((alertEl) => alertEl.present());
   }
 
   setRating(rating) {

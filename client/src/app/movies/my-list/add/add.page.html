@@ -1,11 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Add</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-text-center" padding>
-  <form (ngSubmit)="onSubmit()">
+  <form #f="ngForm" (ngSubmit)="onSubmit()">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
@@ -43,9 +46,12 @@
               type="number"
               ngModel
               [(ngModel)]="form.year"
+              (ionInput)="validateYear()"
               name="year"
-              placeholder="2000"
+              placeholder="2021"
               required
+              min="1800"
+              max="2030"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -131,7 +137,7 @@
             type="button"
             fill="clear"
             expand="block"
-            (click)="onClear()"
+            (click)="onClear(f)"
             >Clear</ion-button
           >
         </ion-col>
