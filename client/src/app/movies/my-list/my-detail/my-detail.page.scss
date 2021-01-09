@@ -1,22 +1,42 @@
 .container {
-    min-height: 200px;
-    background-size: cover;
+  min-height: 200px;
+  background-size: cover;
+}
+
+ion-img {
+  display: block;
+  margin-left: 25%;
+  margin-right: 25%;
+  width: 50vw;
 }
 
 @media (min-width: 0px) {
-    .images {
-        column-count: 2;
-    }
+  .images {
+    column-count: 2;
+  }
 }
 
 @media (min-width: 420px) {
-    .images {
-        column-count: 3;
-    }
+  .images {
+    column-count: 3;
+  }
+  ion-card {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (min-width: 720px) {
-    .images {
-        column-count: 4;
-    }
+  .images {
+    column-count: 4;
+  }
 }
+
+@media (max-width: 720px) {
+    ion-img {
+        width: 80vw;
+    }
+  }
