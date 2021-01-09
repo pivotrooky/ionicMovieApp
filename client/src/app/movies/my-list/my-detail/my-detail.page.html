@@ -10,61 +10,71 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-card *ngIf="item && isOwner === true">
     <ion-card-header>
       <ion-card-title> {{ item.title }} </ion-card-title>
       <ion-card-subtitle> {{ item.year }} </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content text-center class="container">
-      <ion-img
-        class="images"
-        [src]="item.image"
-        *ngIf="item.image != 'N/A'"
-      ></ion-img>
-      <ion-img
-        class="images"
-        [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
-        *ngIf="item.image == 'N/A'"
-      ></ion-img>
-      {{ item.plot }}
-      <ionic5-star-rating
-        activeIcon="heart"
-        defaultIcon="heart-outline"
-        activeColor="#ff0000"
-        defaultColor="#111111"
-        readonly="false"
-        rating="{{item.userRating}}"
-        fontSize="32px"
-        (ratingChanged)="setRating($event)"
-      >
-      </ionic5-star-rating>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="3" offset-sm="4">
+            <ion-img
+              class="images"
+              [src]="item.image"
+              *ngIf="item.image != 'N/A'"
+            ></ion-img>
+            <ion-img
+              class="images"
+              [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQLn-fcitjj-HXOyjRJJfAzymQX9p6657KNw&usqp=CAU'"
+              *ngIf="item.image == 'N/A'"
+            ></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-text> {{ item.plot.slice(0, 500) + "..." }} </ion-text>
+        <ion-row>
+          <ion-col size="auto" >
+            <ionic5-star-rating
+              activeIcon="heart"
+              defaultIcon="heart-outline"
+              activeColor="#ff0000"
+              defaultColor="#111111"
+              readonly="false"
+              rating="{{item.userRating}}"
+              fontSize="32px"
+              (ratingChanged)="setRating($event)"
+            >
+            </ionic5-star-rating>
+          </ion-col>
+        </ion-row>
 
-      <ion-button
-        expand="full"
-        (click)="openWebsite()"
-        *ngIf="item.website && item.website != 'N/A'"
-      >
-        <ion-icon name="open" slot="start"></ion-icon>
-        Open Website
-      </ion-button>
-      <ion-button expand="full" (click)="removeThisAndGetOut()">
-        <ion-icon name="remove" slot="start"></ion-icon>
-        Remove movie from my list :(
-      </ion-button>
+        <ion-button
+          expand="full"
+          (click)="openWebsite()"
+          *ngIf="item.website && item.website != 'N/A'"
+        >
+          <ion-icon name="open" slot="start"></ion-icon>
+          Open Website
+        </ion-button>
+        <ion-button expand="block" (click)="removeThisAndGetOut()">
+          <ion-icon name="remove" slot="start"></ion-icon>
+          Remove movie from my list :(
+        </ion-button>
 
-      <ion-button expand="full" [routerLink]="['/edit/', item.id]">
-        <ion-icon name="create" slot="start"></ion-icon>
-        Edit movie data
-      </ion-button>
-      <ion-button
-        expand="full"
-        (click)="restoreDataFromOMDB()"
-        *ngIf="item.imdbID !== null"
-      >
-        <ion-icon name="arrow-undo" slot="start"></ion-icon>
-        Restore data from IMDB :)
-      </ion-button>
+        <ion-button expand="block" [routerLink]="['/edit/', item.id]">
+          <ion-icon name="create" slot="start"></ion-icon>
+          Edit movie data
+        </ion-button>
+        <ion-button
+          expand="full"
+          (click)="restoreDataFromOMDB()"
+          *ngIf="item.imdbID !== null"
+        >
+          <ion-icon name="arrow-undo" slot="start"></ion-icon>
+          Restore data from IMDB :)
+        </ion-button>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>
