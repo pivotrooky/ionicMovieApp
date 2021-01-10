@@ -26,7 +26,6 @@ npm install
 * En el caso de *client*, haremos lo mismo con un comando similar:
 ```
 npm install --legacy-peer-deps
-
 ```
 
 * Desde la carpeta client, iniciar la aplicación con el comando
