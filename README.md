@@ -51,5 +51,6 @@ PASSPORT_KEY="passSecret"
 * De llegar a toparte con problemas en la configuración de PostgreSQL, estos links podrían resultar de ayuda:
 
 https://sqlbackupandftp.com/blog/setting-windows-path-for-postgres-tools
+
 https://databaseandtech.wordpress.com/2019/10/24/como-crear-un-usuario-y-asignarle-permisos-en-postgresql/
 
