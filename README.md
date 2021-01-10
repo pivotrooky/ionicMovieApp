@@ -19,10 +19,16 @@ npm install -g @ionic/cli
 ```
 
 * Clonar este repositorio.
-* Correr el siguiente comando tanto desde la carpeta *client* como la carpeta *api*, para instalar los paquetes que va a usar la aplicación.
+* Desde la carpeta *api* instalar los paquetes correspondientes con el comando
 ```
 npm install
 ```
+* En el caso de *client*, haremos lo mismo con un comando similar:
+```
+npm install --legacy-peer-deps
+
+```
+
 * Desde la carpeta client, iniciar la aplicación con el comando
 ```
 ionic serve
