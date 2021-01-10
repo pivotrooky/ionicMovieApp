@@ -29,7 +29,7 @@ export class DetailPage implements OnInit {
 
     this.searchService.getDetails(this.id).subscribe((result) => {
       this.information = result;
-    });
+    }, err => console.log(err));
   }
 
   ionViewDidEnter() {
@@ -41,7 +41,7 @@ export class DetailPage implements OnInit {
     this.myListService.getLocalID(this.id, this.authService.getUserId()).subscribe((data) => {
       this.local = data;
       this.goToLocalItem();
-    });
+    }, err => console.log(err));
   }
 
   openWebsite() {

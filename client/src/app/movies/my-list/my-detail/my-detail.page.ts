@@ -77,7 +77,7 @@ export class MyDetailPage implements OnInit {
       .getDetails(this.item.imdbID)
       .subscribe((originalDetail) => {
         this.originalItem = originalDetail;
-      });
+      }, err => console.log(err));
   }
 
   getRemoteDetails() {
@@ -85,7 +85,7 @@ export class MyDetailPage implements OnInit {
 
       //check if local data needs updating
       this.handleDetailRender(newDetail);
-    });
+    }, err => console.log(err));
   }
 
   handleDetailRender(newDetail) {
@@ -144,7 +144,12 @@ export class MyDetailPage implements OnInit {
   }
 
   removeThisFromMyList() {
-    return this.myListService.removeMovie(this.id).subscribe();
+    return this.myListService.removeMovie(this.id).subscribe(
+      (res: any) => {},
+      (err) => {
+        console.log(err);
+      }
+    );;
   }
 
   restoreDataFromOMDB() {

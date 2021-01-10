@@ -61,7 +61,7 @@ export class MyListPage {
       this.checkIfLocalListNeedsUpdating(
         this.myListService.sortByName(newList)
       );
-    });
+    }, err => console.log(err));
   }
 
   checkIfLocalListNeedsUpdating(newList) {
