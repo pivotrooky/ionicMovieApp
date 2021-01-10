@@ -42,7 +42,7 @@ export const API_KEY = ""; //acá va tu clave!
 ```
 PostgreSQL para nuestra base de datos local!
 ------------
-* Descargar e instalar para tu sistema operativo [PostgreSQL](https://www.postgresql.org/)
+* Descargar e instalar [PostgreSQL](https://www.postgresql.org/) para tu sistema operativo 
 * Crear una base de datos con el nombre que prefieras.
 * Configurar los datos de usuario, contraseña, servidor, puerto y nombre de base de datos en el archivo `api/.env`
 ```
