@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "./auth.service";
+import { BACKEND } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +17,7 @@ export class MyListService {
 
   postMovie(data) {
     this.http
-      .post("http://localhost:3001/movies/", {
+      .post(`${BACKEND}/movies/`, {
         ...data,
         userRating: 0,
         userId: this.authService.getUserId(),
@@ -30,7 +31,7 @@ export class MyListService {
   }
 
   putMovie(movieID, data) {
-    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
+    this.http.put(`${BACKEND}/movies/${movieID}`, data).subscribe();
   }
 
   objectToArrayFromId(object) {
@@ -45,7 +46,7 @@ export class MyListService {
 
   putRating(movieID, userRating) {
     this.http
-      .put("http://localhost:3001/movies/" + movieID, { userRating })
+      .put(`${BACKEND}/movies/${movieID}`, { userRating })
       .subscribe(
         (res: any) => {},
         (err) => {
@@ -55,22 +56,22 @@ export class MyListService {
   }
 
   getLocalID(imdbID, userId) {
-    return this.http.post("http://localhost:3001/movies/local", {
+    return this.http.post(`${BACKEND}/movies/local`, {
       imdbID,
       userId,
     });
   }
 
   getMyList(userId) {
-    return this.http.get("http://localhost:3001/movies/of/" + userId);
+    return this.http.get(`${BACKEND}/movies/of/${userId}`);
   }
 
   getMyDetails(id) {
-    return this.http.get("http://localhost:3001/movies/" + id);
+    return this.http.get(`${BACKEND}/movies/${id}`);
   }
 
   removeMovie(id) {
-    return this.http.delete("http://localhost:3001/movies/" + id);
+    return this.http.delete(`${BACKEND}/movies/${id}`);
   }
 
   restoreDataFromOMDB(newData, movieID) {
