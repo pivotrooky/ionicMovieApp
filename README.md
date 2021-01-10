@@ -1,4 +1,4 @@
-Ionic Movies App
+Ionic Movie App
 ==========
 
 Resumen del proyecto
