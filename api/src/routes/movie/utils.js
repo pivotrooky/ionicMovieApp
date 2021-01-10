@@ -1,13 +1,12 @@
 const { Movie, User } = require("../../db.js");
-const { Op } = require("sequelize");
 
-// Muestra un JSON con todas las películas guardadas
+// Get all movies
 const getAllMovies = (req, res) => {
   Movie.findAll()
     .then((movies) => res.status(200).send(movies))
     .catch((err) => res.send(err));
 };
-// Muestra los datos de una sola película
+// Gets data of a single movie
 const getOnlyMovie = (req, res) => {
   let { id } = req.params;
   Movie.findByPk(id)
@@ -17,7 +16,7 @@ const getOnlyMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-// Crea una nueva película y la guarda en la base de datos
+// Creates a new movie
 const createMovie = (req, res) => {
   const movieKeys = [
     "title",
@@ -65,6 +64,8 @@ const createMovie = (req, res) => {
   }
 };
 
+//Modifies movie
+
 const modifyMovie = (req, res) => {
   const newKeys = [
     "title",
@@ -96,7 +97,7 @@ const modifyMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-//Elimina una película
+//Deletes a movie
 
 const deleteMovie = (req, res) => {
   const { id } = req.params;
@@ -106,22 +107,22 @@ const deleteMovie = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-//Nos trae las películas de un usuario en especial
+//Gets us all movies of a given user
 const getMoviesOfUser = (req, res) => {
   const { id } = req.params;
   User.findAll({
     where: {
       id,
     },
-    //filtramos
     include: [{ model: Movie }],
-    //incluimos datos de las películas
+    //we include user movies
   })
     .then((movies) => res.status(200).send(movies))
     .catch((err) => res.send(err));
 };
+//for now sending the whole user object is fine, later it'd probably be best to just send the movies.
 
-//Nos trae el ID en el contexto de la lista de un usuario, dándole como input el imdbID de una película
+//Gets the ID of a movie in a *local* context, given that movie's imdbID as input.
 const getLocalID = (req, res) => {
   const { imdbID, userId } = req.body;
 

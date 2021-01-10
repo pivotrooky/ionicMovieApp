@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  // Modelo de película. Por defecto vamos a usar "película" como sinónimo de "película o serie" (item).
+  // Movie model. For now, we'll use "item" and "movie"(/"series") interchangeably.
   sequelize.define("movie", {
     title: {
       type: DataTypes.STRING,

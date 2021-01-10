@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  // Modelo de usuario.
+  // User model
   sequelize.define("user", {
     email: {
       type: DataTypes.STRING,
