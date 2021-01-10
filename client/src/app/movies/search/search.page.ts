@@ -1,6 +1,5 @@
 import { SearchService, SearchType } from "../../services/search.service";
-import { MyListService } from "../../services/my-list.service";
-import { Component, OnInit } from "@angular/core";
+import { Component} from "@angular/core";
 import { Observable } from "rxjs";
 
 @Component({

@@ -26,10 +26,25 @@ export class AddPage {
     type: null,
   };
   types = ["movie", "series"];
+
+  //important for add.page.html to show form correctly
   type = {};
-  //para que no dé error add.page.html
 
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
+
+  addMovieToList() {
+    const { title, genre, year, image, plot, type } = this.form;
+
+    const newMovie = {
+      title,
+      genre,
+      year,
+      image,
+      plot,
+      type,
+    };
+    return this.myListService.postMovie(newMovie);
+  }
 
   onCancel() {
     this.router.navigate(["/myList"]);
@@ -56,30 +71,16 @@ export class AddPage {
       .then((alertEl) => alertEl.present());
   }
 
-  validateYear() {
-    if (this.form.year > 2030) return (this.form.year = 2030);
-  }
-
-  addMovieToList() {
-    const { title, genre, year, image, plot, type } = this.form;
-
-    console.log("Title is : " + title);
-    console.log("Year is : " + year);
-    console.log("Image is : " + image);
-    console.log("Genre is : " + genre);
-    console.log("Plot is : " + plot);
-    console.log("Type is:" + type);
-
-    const newMovie = {
-      title,
-      genre,
-      year,
-      image,
-      plot,
-      type,
-    };
-    console.log(newMovie);
-    return this.myListService.postItem(newMovie);
+  onSubmit() {
+    if (this.form.year > 2030) this.form.year = 2030;
+    if (!this.types.includes(this.form.type))
+      return;
+    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
+      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
+      //may this be a local resource? would sequelize allow it?
+    }
+    this.addMovieToList();
+    this.getBackToMyList();
   }
 
   getBackToMyList() {
@@ -87,14 +88,7 @@ export class AddPage {
     return;
   }
 
-  onSubmit() {
-    if (this.form.year > 2030) this.form.year = 2030;
-    if (!this.types.includes(this.form.type))
-      return console.log("error de type");
-    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
-      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
-    }
-    this.addMovieToList();
-    this.getBackToMyList();
+  validateYear() {
+    if (this.form.year > 2030) return (this.form.year = 2030);
   }
 }
