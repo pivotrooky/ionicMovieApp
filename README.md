@@ -25,7 +25,6 @@ npm install
 ```
 * Desde la carpeta client, iniciar la aplicación con el comando
 ```
-ionic build
 ionic serve
 ```
 Llave de API de OMDB para poder buscar películas
