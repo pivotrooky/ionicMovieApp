@@ -1,6 +1,11 @@
 Ionic Movies App
 ==========
 <img src="doc/pic1.png" alt="emulated-android" width="200"/>
+<img src="doc/pic2.png" alt="emulated-android" width="200"/>
+<img src="doc/pic3.png" alt="emulated-android" width="200"/>
+<img src="doc/pic4.png" alt="emulated-android" width="200"/>
+<img src="doc/pic5.png" alt="emulated-android" width="200"/>
+<img src="doc/pic6.png" alt="emulated-android" width="200"/>
 
 Resumen del proyecto
 ------------
