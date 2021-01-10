@@ -9,19 +9,19 @@ const {
 
 // ------------------- ROUTE USUARIOS ------------------
 
-//Get --> Muestra todos los usuarios
+//Get --> Gets all users
 server.get('/', getAllUsers);
 
-// Get --> Muestra los datos de un solo usuario
+// Get --> Gets data of a given user
 server.get('/:id', getOnlyUser);
 
-//Post --> Crea un usuario
+//Post --> Creates a user
 server.post('/', createUser);
 
-//Put --> Modifica un usuario
+//Put --> Modifies a user
 server.put('/:id', modifyUser);
 
-//Delete --> Elimina un usuario
+//Delete --> Deletes a user
 server.delete('/:id', deleteUser);
 
 module.exports = server;

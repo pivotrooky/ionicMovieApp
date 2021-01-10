@@ -40,7 +40,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-//estrategia de passport
+//passport strategy
 passport.use(
   new LocalStrategy(
     {
@@ -74,11 +74,11 @@ server.use(
   })
 );
 
-//middlewares de passport
+//passport middleware
 server.use(passport.initialize());
 server.use(passport.session());
 
-//middleware donde tenemos las rutas
+//our routes
 server.use('/', routes);
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { URL, API_KEY } from "../../environments/environment";
 
 // Typescript custom enum for search types (optional)
 export enum SearchType {
@@ -14,8 +15,6 @@ export enum SearchType {
   providedIn: "root",
 })
 export class SearchService {
-  url = "http://www.omdbapi.com/";
-  apiKey = "20dac387";
   createdIds = [];
 
   constructor(private http: HttpClient) {}
@@ -23,7 +22,7 @@ export class SearchService {
   searchData(title: string, type: SearchType): Observable<any> {
     return this.http
       .get(
-        `${this.url}?s=${encodeURI(title)}&type=${type}&apikey=${this.apiKey}`
+        `${URL}?s=${encodeURI(title)}&type=${type}&apikey=${API_KEY}`
       )
       .pipe(
         map((results) => {
@@ -36,6 +35,6 @@ export class SearchService {
       );
   }
   getDetails(id) {
-    return this.http.get(`${this.url}?i=${id}&plot=full&apikey=${this.apiKey}`);
+    return this.http.get(`${URL}?i=${id}&plot=full&apikey=${API_KEY}`);
   }
 }

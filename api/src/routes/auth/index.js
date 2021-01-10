@@ -7,18 +7,18 @@ const {
   login,
 } = require("./utils.js");
 
-//Post --> Ruta de login
+//Post --> Login route
 router.post("/login", login);
 
-//Get --> Ruta de login.
+//Get --> Login route
 router.get("/login", isAuthenticated, (req, res) => {
   return res.send(req.user);
 });
 
-//Get --> Se desloguea si estaba logueado
+//Get --> Logs user out.
 router.get("/logout", userLogout);
 
-//Get --> Trae los datos del usuario logueado en este momento, si hay uno logueado.
+//Get --> Gets data of logged user, if there is one
 router.get("/me", me);
 
 module.exports = router;
