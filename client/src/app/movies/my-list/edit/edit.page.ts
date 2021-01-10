@@ -37,7 +37,7 @@ export class EditPage {
       this.item = result;
       this.checkOwnership();
       this.onReset();
-    });
+    }, err => console.log(err));
   }
 
   checkOwnership() {

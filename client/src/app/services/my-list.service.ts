@@ -21,7 +21,12 @@ export class MyListService {
         userRating: 0,
         userId: this.authService.getUserId(),
       })
-      .subscribe();
+      .subscribe(
+        (res: any) => {},
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   putMovie(movieID, data) {
@@ -41,7 +46,12 @@ export class MyListService {
   putRating(movieID, userRating) {
     this.http
       .put("http://localhost:3001/movies/" + movieID, { userRating })
-      .subscribe();
+      .subscribe(
+        (res: any) => {},
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   getLocalID(imdbID, userId) {
@@ -69,7 +79,6 @@ export class MyListService {
   }
 
   //-----------------------------------------HELPER FUNCTIONS----------------------------------------
-  
 
   arrayToObjectFromId(array) {
     const obj = {};
