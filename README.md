@@ -61,3 +61,4 @@ Imágenes ilustrativas de la app funcionando
 ------------
 <img src="doc/pic1.png" alt="emulated-android" width="200"/>
 <img src="doc/pic2.png" alt="emulated-android" width="200"/>
+<img src="doc/pic7.png" alt="emulated-android" width="200"/>
