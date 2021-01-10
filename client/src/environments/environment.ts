@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const URL = "http://www.omdbapi.com/";
-export const API_KEY = "20dac387";
+export const API_KEY = ""; //API KEY Here!
 export const BACKEND = "http://localhost:3001";
 
 
