@@ -23,7 +23,6 @@ export class LoginPage implements OnInit {
     this.authService
       .login(email, password)
       .then((response) => {
-        console.log(response)
         this.authService.setUserInfo(response);
         this.router.navigate(["myList"]);
       })

@@ -8,10 +8,82 @@ import { AuthService } from "./auth.service";
 export class MyListService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  addMovieFromOMDB(OMDBObject) {
+    const data = this.OMDBObjectToLocalObject(OMDBObject);
+
+    this.postMovie(data);
+  }
+
+  postMovie(data) {
+    this.http
+      .post("http://localhost:3001/movies/", {
+        ...data,
+        userRating: 0,
+        userId: this.authService.getUserId(),
+      })
+      .subscribe();
+  }
+
+  putMovie(movieID, data) {
+    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
+  }
+
+  objectToArrayFromId(object) {
+    let array = [];
+
+    for (let id in object) {
+      array.push(object[id]);
+    }
+
+    return array;
+  }
+
+  putRating(movieID, userRating) {
+    this.http
+      .put("http://localhost:3001/movies/" + movieID, { userRating })
+      .subscribe();
+  }
+
+  getLocalID(imdbID, userId) {
+    return this.http.post("http://localhost:3001/movies/local", {
+      imdbID,
+      userId,
+    });
+  }
+
+  getMyList(userId) {
+    return this.http.get("http://localhost:3001/movies/of/" + userId);
+  }
+
+  getMyDetails(id) {
+    return this.http.get("http://localhost:3001/movies/" + id);
+  }
+
+  removeMovie(id) {
+    return this.http.delete("http://localhost:3001/movies/" + id);
+  }
+
+  restoreDataFromOMDB(newData, movieID) {
+    const data = this.OMDBObjectToLocalObject(newData);
+    this.putMovie(movieID, data);
+  }
+
+  //-----------------------------------------HELPER FUNCTIONS----------------------------------------
+  
+
+  arrayToObjectFromId(array) {
+    const obj = {};
+    for (let item of array) {
+      obj[item.id] = item;
+    }
+    return obj;
+  }
+
   OMDBObjectToLocalObject(OMDBObject) {
     let userId = this.authService.getUserId();
     for (let key in OMDBObject) {
       if (OMDBObject[key] === "N/A") OMDBObject[key] = null;
+      //the previous line is very important so don't mess with it!
     }
 
     const {
@@ -44,46 +116,6 @@ export class MyListService {
     return localObject;
   }
 
-  addMovieFromOMDB(OMDBObject) {
-    const data = this.OMDBObjectToLocalObject(OMDBObject);
-
-    this.postItem(data);
-  }
-
-  postItem(data) {
-    this.http
-      .post("http://localhost:3001/movies/", {
-        ...data,
-        userRating: 0,
-        userId: this.authService.getUserId(),
-      })
-      .subscribe();
-  }
-
-  putItem(movieID, data) {
-    this.http.put("http://localhost:3001/movies/" + movieID, data).subscribe();
-  }
-
-  arrayToObjectFromId(array) {
-    const obj = {};
-    for (let item of array) {
-      obj[item.id] = item;
-    }
-    return obj;
-  }
-
-  objectToArrayFromId(object) {
-    let array = [];
-
-    for (let id in object) {
-      array.push(object[id]);
-    }
-
-    return array;
-  }
-
-  
-
   isSameMovieList(oldArray, newArray) {
     let oldIDs = [];
     let newIDs = [];
@@ -103,37 +135,6 @@ export class MyListService {
     return true;
   }
 
-  putRating(movieID, userRating) {
-    this.http
-      .put("http://localhost:3001/movies/" + movieID, { userRating })
-      .subscribe();
-  }
-
-  getMyList(userId) {
-    return this.http.get("http://localhost:3001/movies/of/" + userId);
-  }
-
-  getLocalID(imdbID, userId) {
-    return this.http.post("http://localhost:3001/movies/local", {
-      imdbID,
-      userId,
-    });
-  }
-
-  getMyDetails(id) {
-    return this.http.get("http://localhost:3001/movies/" + id);
-  }
-
-  removeItem(id) {
-    return this.http.delete("http://localhost:3001/movies/" + id);
-  }
-
-  restoreDataFromOMDB(newData, movieID) {
-    console.log(newData, "soy New Data");
-    const data = this.OMDBObjectToLocalObject(newData);
-    this.putItem(movieID, data);
-  }
-
   sortByName(array) {
     array.sort((a, b) => {
       if (a?.title < b?.title) {
@@ -144,8 +145,8 @@ export class MyListService {
       }
       return 0;
     });
-    
-  return array;
-  }
+    //in the future, I will probably be sorting by other attributes, such as user rating
 
+    return array;
+  }
 }

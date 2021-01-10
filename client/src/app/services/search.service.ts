@@ -27,7 +27,6 @@ export class SearchService {
       )
       .pipe(
         map((results) => {
-          console.log(results, "results");
           const filteredResults = results["Search"].filter(
             (item) => item.Type !== "game"
           );

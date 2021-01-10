@@ -109,7 +109,6 @@ const deleteMovie = (req, res) => {
 //Nos trae las películas de un usuario en especial
 const getMoviesOfUser = (req, res) => {
   const { id } = req.params;
-  console.log(id, "SOY USER ID");
   User.findAll({
     where: {
       id,

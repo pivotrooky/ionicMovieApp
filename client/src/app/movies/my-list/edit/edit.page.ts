@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { NgForm, NgModel } from "@angular/forms";
+import { Component} from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MyListService } from "../../../services/my-list.service";
@@ -32,7 +31,6 @@ export class EditPage {
   urlRegex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g;
 
   ionViewDidEnter() {
-    //mejorar con caché pero tener cuidado de no renderizar información desactualizada?
     this.movieId = this.activatedRoute.snapshot.paramMap.get("id");
 
     this.myListService.getMyDetails(this.movieId).subscribe((result) => {
@@ -50,8 +48,37 @@ export class EditPage {
     return;
   }
 
+  editMovie() {
+    const { title, genre, year, image, plot, type } = this.form;
+
+    const newData = {
+      title,
+      genre,
+      year,
+      image,
+      plot,
+      type,
+    };
+    return this.myListService.putMovie(this.movieId, newData);
+  }
+
+  getBackToMyList() {
+    this.router.navigate(["/myList"]);
+    return;
+  }
+
   onCancel() {
     this.router.navigate(["/myList"]);
+  }
+
+  onSubmit() {
+    if (this.form.year > 2030) this.form.year = 2030;
+    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
+      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
+    }
+
+    this.editMovie();
+    this.getBackToMyList();
   }
 
   onReset() {
@@ -62,43 +89,5 @@ export class EditPage {
 
   validateYear() {
     if (this.form.year > 2030) return (this.form.year = 2030);
-  }
-
-  editMovie() {
-    const { title, genre, year, image, plot, type } = this.form;
-
-    console.log("Title is : " + title);
-    console.log("Year is : " + year);
-    console.log("Image is : " + image);
-    console.log("Genre is : " + genre);
-    console.log("Plot is : " + plot);
-    console.log("Type is:" + type);
-
-    const newData = {
-      title,
-      genre,
-      year,
-      image,
-      plot,
-      type,
-    };
-    console.log(newData);
-    return this.myListService.putItem(this.movieId, newData);
-  }
-
-  getBackToMyList() {
-    this.router.navigate(["/myList"]);
-    return;
-  }
-
-  onSubmit() {
-    if (this.form.year > 2030) this.form.year = 2030;
-    if (this.form.image === "" || !this.urlRegex.test(this.form.image)) {
-      this.form.image = "https://simpleicon.com/wp-content/uploads/movie-3.png";
-    }
-    //arreglar esto!
-
-    this.editMovie();
-    this.getBackToMyList();
   }
 }
