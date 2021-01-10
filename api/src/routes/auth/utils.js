@@ -1,6 +1,6 @@
 const passport = require('passport');
 
-//Ruta de login
+//Login route
 const login = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -18,7 +18,7 @@ const login = (req, res, next) => {
   })(req, res, next);
 };
 
-//Si está loguedo, manda datos del usuario
+//If user is logged, sends data
 const me = (req, res, next) => {
   if (req.isAuthenticated()) {
     return res.status(200).send(req.user);
@@ -26,7 +26,7 @@ const me = (req, res, next) => {
     return res.status(401).send('Not logged');
   }
 };
-//Si está logueado, se desloguea
+//If user is logged, user will not be logged out
 const userLogout = (req, res) => {
   req.logout();
   return res.status(200).send(null);

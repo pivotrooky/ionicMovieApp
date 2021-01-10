@@ -1,13 +1,12 @@
 const { User } = require("../../db.js");
-const { Op } = require("sequelize");
 
-// Muestra un JSON con todos los usuarios registrados (no se está usando, serviría si más adelante tuviéramos admins en la app)
+//Gets all users (not yet used, makes sense to use only if there's an admin)
 const getAllUsers = (req, res) => {
   User.findAll()
     .then((users) => res.status(200).send(users))
     .catch((err) => res.send(err));
 };
-// Muestra los datos de un solo user
+//Gets data of a user
 const getOnlyUser = (req, res) => {
   let { id } = req.params;
   User.findByPk(id)
@@ -17,7 +16,7 @@ const getOnlyUser = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-// Crea un nuevo user y lo guarda en la base de datos
+//Creates a new user
 const createUser = (req, res) => {
   const { email, password } = req.body;
 
@@ -34,7 +33,7 @@ const createUser = (req, res) => {
   });
 };
 
-//Modifica datos de un usuario (por ahora el front no está usando estas últimas rutas)
+//Modifies user data (not yet used by app)
 const modifyUser = (req, res) => {
   const { email } = req.body;
   const { id } = req.params;
@@ -51,7 +50,7 @@ const modifyUser = (req, res) => {
     .catch((err) => res.send(err));
 };
 
-//Elimina el usuario
+//Deletes a user
 const deleteUser = (req, res) => {
   const { id } = req.params;
   User.findByPk(id)

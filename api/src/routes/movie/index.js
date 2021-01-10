@@ -11,25 +11,25 @@ const {
 
 // ------------------- ROUTE PRODUCTOS ------------------
 
-//Get --> Muestra todas las películas
+//Get --> Gets all movies
 server.get('/', getAllMovies);
 
-// Get --> Devuelve el id local de una película, si existe
+// Get --> Gets local ID of a movie, if there is one
 server.post('/local/', getLocalID);
 
-// Get --> Muestra los datos de una sola película
+// Get --> Gets data of a single movie
 server.get('/:id', getOnlyMovie);
 
-//Post --> Crea una nueva película
+//Post --> Creates a new movie
 server.post('/', createMovie);
 
-//Put --> Modifica una película
+//Put --> Updates data of an existing movie
 server.put('/:id', modifyMovie);
 
-//Delete --> Elimina una película
+//Delete --> Deletes a movie
 server.delete('/:id', deleteMovie);
 
-//Get --> Muestra las películas de un usuario específico
+//Get --> Gets all movies of a specific user
 server.get('/of/:id', getMoviesOfUser);
 
 
