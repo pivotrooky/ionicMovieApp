@@ -42,17 +42,18 @@ export class MyDetailPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log("item", this.item);
   }
 
   checkOwnership() {
-    //En este momento, si llegamos a ejecutar este método es porque this.item no tiene un valor falsy. Pero eso puede cambiar, así que mejor usar un condicional.
+    //there's actually no need to check if this.item is truthy as of yet, because if it's falsy then checkOwnership wouldn't even run.
+    //but we include it anyway just for doublechecking
+
     if (!this.item) return;
 
     let userId = this.authService.getUserId();
     if (this.item.userId !== userId) return this.router.navigate(["/myList"]);
 
-    //esta última es solo una precaución extra para evitar el renderizado en caso de que no se compruebe que el usuario sea el propietario.
+    //setting this.isOwner to true is also just an extra precaution
     return (this.isOwner = true);
   }
 
@@ -60,14 +61,15 @@ export class MyDetailPage implements OnInit {
     this.localStorageList = JSON.parse(localStorage.getItem("myList"));
     if (!this.localStorageList) return;
 
-    //si existe mi lista local, me fijo a ver si tiene el item que busco, en base al ID.
+    //if I have a local list, check whether there's an item with an ID that matches my item's ID
     let localStorageDetail = this.localStorageList[this.id];
     if (!localStorageDetail) return;
 
-    //si ese item está, lo paso a this.item
+    //if there is such an item, then set this.item to it
     if (localStorageDetail) this.item = localStorageDetail;
 
-    //acá hay varios returns porque no es tan fácil manejarme con el operador "?." y prefiero ser más cuidadoso aunque implique que, en este caso, cueste leer más el código
+    //in this method one could've used optional chaining operators in order to have less "return" statements
+    //but I think the code is more readable this way and that's more important
   }
 
   getOriginalItem() {
@@ -75,29 +77,27 @@ export class MyDetailPage implements OnInit {
       .getDetails(this.item.imdbID)
       .subscribe((originalDetail) => {
         this.originalItem = originalDetail;
-        //ARREGLAR ESTO!
-      });
+      }, err => console.log(err));
   }
 
   getRemoteDetails() {
     this.myListService.getMyDetails(this.id).subscribe((newDetail) => {
-      console.log("llegué a getMyDetails");
 
-      //me fijo a ver si mis datos locales están desactualizados
+      //check if local data needs updating
       this.handleDetailRender(newDetail);
-    });
+    }, err => console.log(err));
   }
 
   handleDetailRender(newDetail) {
-    if (!newDetail.title) return this.router.navigate(["/myList"]);
-    //esto pasa si entré poniendo un ID que no se corresponde con un item válido
+    if (!newDetail) return this.router.navigate(["/myList"]);
+    //for when I enter a URL with an ID corresponding to an invalid item
 
     if (!this.item) return this.updateLocalDetail(newDetail);
-    //si no tengo guardado ningún detalle en this.item, no es necesario entrar al loop para saber que tengo que actualizar
+    //if there's no 'this.item' in the component, we're gonna have to update it, so no need to enter the loop
 
     for (let prop in newDetail) {
       if (newDetail[prop] !== this.item[prop]) {
-        //con que alguna propiedad sea diferente, alcanza para necesitar cambiar los datos y renderizar de nuevo
+        //if a property is different then we have to update the whole thing
         return this.updateLocalDetail(newDetail);
       }
     }
@@ -109,15 +109,15 @@ export class MyDetailPage implements OnInit {
 
   updateLocalDetail(newDetail) {
     let thisItemBeforeUpdate = this.item;
-    //guardo referencia de lo que tenía antes de hacer la actualización
+    //save a reference before actually making the update
 
-    //acá actualizo el item dentro del componente para ser renderizado, y dentro de mi lista en localStorage
-    this.item = newDetail;
+    //here I update the item inside the component before renderization, and in localStorage
+     this.item = newDetail;
     this.localStorageList = { ...this.localStorageList, [this.id]: newDetail };
     localStorage.setItem("myList", JSON.stringify(this.localStorageList));
 
     if (!thisItemBeforeUpdate) window.location.reload();
-    //esto último puede pasar si voy por URL directamente a un item y mi lista no estaba actualizada
+    //this is a safeguard meant for when I access directly a movie detail by URL and my list wasn't up to date
     return;
   }
 
@@ -144,7 +144,12 @@ export class MyDetailPage implements OnInit {
   }
 
   removeThisFromMyList() {
-    return this.myListService.removeItem(this.id).subscribe();
+    return this.myListService.removeMovie(this.id).subscribe(
+      (res: any) => {},
+      (err) => {
+        console.log(err);
+      }
+    );;
   }
 
   restoreDataFromOMDB() {
@@ -174,7 +179,6 @@ export class MyDetailPage implements OnInit {
   }
 
   setRating(rating) {
-    console.log("changed rating: ", rating);
     this.myListService.putRating(this.id, rating);
   }
 }

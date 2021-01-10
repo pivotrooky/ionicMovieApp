@@ -19,15 +19,6 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {}
 
-  signup(email, password) {
-    this.authService
-      .signup(email, password)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch(({error}) => this.showAlertAuth(error));
-  }
-
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
@@ -46,5 +37,13 @@ export class RegisterPage implements OnInit {
         buttons: ["Okay"],
       })
       .then((alertEl) => alertEl.present());
+  }
+
+  signup(email, password) {
+    this.authService
+      .signup(email, password)
+      .then(() => {
+      })
+      .catch(({error}) => this.showAlertAuth(error));
   }
 }
