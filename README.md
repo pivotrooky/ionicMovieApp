@@ -39,7 +39,7 @@ PostgreSQL para nuestra base de datos local!
 ------------
 * Descargar e instalar para tu sistema operativo [PostgreSQL](https://www.postgresql.org/)
 * Crear una base de datos con el nombre que prefieras.
-* Configurar los datos de usuario, contraseña, servidor, puerto y nombre de base de datos en el archivo *api/.env*
+* Configurar los datos de usuario, contraseña, servidor, puerto y nombre de base de datos en el archivo `api/.env`
 ```
 DATABASE_URL = postgres://POSTGRES_USER:PASSWORD@SERVER:PORT/DB_NAME //acá van los datos de PostgreSQL!
 PORT=3001
