@@ -1,5 +1,7 @@
 {
   "name": "ionicMovieApp",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

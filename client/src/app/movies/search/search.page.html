@@ -13,7 +13,7 @@
   <ion-searchbar
     placeholder="Search new media!"
     [(ngModel)]="searchTerm"
-    (ionChange)="handleSearch($event)"
+    (ionChange)="handleSearch()"
   ></ion-searchbar>
   </ion-col>
   </ion-row>
@@ -22,7 +22,7 @@
   <ion-item>
     
     <ion-label>Filter results...</ion-label>
-    <ion-select [(ngModel)]="type" (ionChange)="handleSearch($event)">
+    <ion-select [(ngModel)]="type" (ionChange)="handleSearch()">
       <ion-select-option value="">All</ion-select-option>
       <ion-select-option value="movie">Movies</ion-select-option>
       <ion-select-option value="series">TV Shows</ion-select-option>

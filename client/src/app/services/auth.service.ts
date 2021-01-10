@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { BACKEND } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -31,18 +32,18 @@ export class AuthService {
 
   signup(email, password) {
     return this.http
-      .post(`http://localhost:3001/users`, { email, password })
+      .post(`${BACKEND}/users`, { email, password })
       .toPromise();
   }
 
   login(email, password) {
     return this.http
-      .post(`http://localhost:3001/auth/login`, { email, password })
+      .post(`${BACKEND}/auth/login`, { email, password })
       .toPromise();
   }
 
   logout() {
     this.deleteUserInfo();
-    return this.http.get(`http://localhost:3001/auth/logout`).toPromise();
+    return this.http.get(`${BACKEND}/auth/logout`).toPromise();
   }
 }

@@ -6,9 +6,9 @@ export const environment = {
   production: false,
 };
 
-
 export const URL = "http://www.omdbapi.com/";
 export const API_KEY = "20dac387";
+export const BACKEND = "http://localhost:3001";
 
 
 /*
