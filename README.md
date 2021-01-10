@@ -1,11 +1,5 @@
 Ionic Movies App
 ==========
-<img src="doc/pic1.png" alt="emulated-android" width="200"/>
-<img src="doc/pic2.png" alt="emulated-android" width="200"/>
-<img src="doc/pic3.png" alt="emulated-android" width="200"/>
-<img src="doc/pic4.png" alt="emulated-android" width="200"/>
-<img src="doc/pic5.png" alt="emulated-android" width="200"/>
-<img src="doc/pic6.png" alt="emulated-android" width="200"/>
 
 Resumen del proyecto
 ------------
@@ -63,3 +57,7 @@ https://sqlbackupandftp.com/blog/setting-windows-path-for-postgres-tools
 
 https://databaseandtech.wordpress.com/2019/10/24/como-crear-un-usuario-y-asignarle-permisos-en-postgresql/
 
+Imágenes ilustrativas de la app funcionando
+------------
+<img src="doc/pic1.png" alt="emulated-android" width="200"/>
+<img src="doc/pic2.png" alt="emulated-android" width="200"/>
