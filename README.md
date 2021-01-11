@@ -42,7 +42,10 @@ export const API_KEY = ""; //acá va tu clave!
 PostgreSQL para nuestra base de datos local!
 ------------
 * Descargar e instalar [PostgreSQL](https://www.postgresql.org/) para tu sistema operativo 
-* Crear una base de datos con el nombre que prefieras.
+* Crear una base de datos con el siguiente comando reemplazando `moviesapp` por el nombre que prefieras:
+```
+CREATE DATABASE moviesapp;
+```
 * Configurar los datos de usuario, contraseña, servidor, puerto y nombre de base de datos en el archivo `api/.env`
 ```
 DATABASE_URL = postgres://POSTGRES_USER:PASSWORD@SERVER:PORT/DB_NAME //acá van los datos de PostgreSQL!
